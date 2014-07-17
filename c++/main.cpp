@@ -30,7 +30,7 @@ int main()
 //	std::cout << "/*";
 //}*/
 
-int main()
+/*int main()
 {
 	int sum = 0;
 
@@ -50,6 +50,19 @@ int main()
 	std::cout << "While result is " << sum << std::endl;
 
 	return 1;
+}*/
+
+int main()
+{
+	int sum = 0;
+	int value;
+
+	while (std::cin >> value)
+	{
+		sum += value;
+	}
+
+	std::cout << sum << std::endl;
+
+	return 1;
 }
-
-
