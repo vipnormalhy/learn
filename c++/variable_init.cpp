@@ -8,10 +8,10 @@ double calc(float a, float b)
 int main()
 {
 	int lang;
-	double calc = calc(4.0, 5.0);
+	double calc_value = calc(4.0, 5.0);
 	std::cin >> lang;
 
-	std::cout << lang << std::endl;
+	std::cout << lang << calc_value << std::endl;
 
 	return 1;
 }
