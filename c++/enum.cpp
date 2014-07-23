@@ -2,9 +2,8 @@
 
 int main()
 {
-	enum flag_type {Chinese, German, Spainish};
-
-	flat_type a(German);
+	typedef enum {Chinese, German, Spainish} flag_type;
+	flag_type a = Chinese;
 
 	std::cout << a << std::endl;
 
