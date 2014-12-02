@@ -23,5 +23,9 @@ int main()
 
 	std::cout << v_c[10] << std::endl;
 
+	std::string::iterator iter;
+
+	iter = test_push_str.begin();
+
 	return 1;
 }
