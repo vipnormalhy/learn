@@ -1,0 +1,26 @@
+git rev-parse commit^{tree}
+git log HEAD^1
+git log HEAD^^2
+git log HEAD~3
+git cat-file -p :.gitignore
+git cat-file -p HEAD^^:.gitignore
+
+git reflog show master
+
+git stash pop <id> --index
+git describe
+git log --decorate
+git rev-parse --symbolic --tags
+
+git rev-parse :/"B"
+
+git log ^F A
+git log F..A
+git log B...C
+git log B^@
+
+git log --grep="A"
+git log -S"f_time"
+git log branch --not master
+git log --since="2013-10-10" --until="2014-01-01"
+git log --author="he.yan"
