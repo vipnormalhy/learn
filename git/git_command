@@ -24,3 +24,16 @@ git log -S"f_time"
 git log branch --not master
 git log --since="2013-10-10" --until="2014-01-01"
 git log --author="he.yan"
+
+git diff --word-diff
+
+git ls-tree
+git ls-files
+git cherry-pick
+
+git commit-tree
+
+git fsck
+git prune
+
+git log -m
