@@ -37,3 +37,16 @@ git fsck
 git prune
 
 git log -m
+
+git rev-parse tag
+git rev-parse tag^{commit}
+
+git ls-remote
+
+git pull orign refs/tags*:refs/tags/*
+
+git push origin :master
+
+git check-ref-format | echo "$?"
+
+git show-ref
