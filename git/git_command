@@ -50,3 +50,13 @@ git push origin :master
 git check-ref-format | echo "$?"
 
 git show-ref
+
+git remote add
+git remote -v
+git remote rm
+git fetch remote-name
+git remote rename
+git remote set-url
+git remote update
+
+git rev-list
