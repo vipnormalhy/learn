@@ -60,3 +60,10 @@ git remote set-url
 git remote update
 
 git rev-list
+
+git format-pach HEAD^^..HEAD
+git am
+
+git read-tree
+git write-tree
+git commit-tree
