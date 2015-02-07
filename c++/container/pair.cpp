@@ -7,10 +7,10 @@ int main(int argc, char *argv[])
 	int first, second;
 
 	std::cin >> first >> second;
-	pairTest.first = first;
-	pairTest.second = second;
+
+	pairTest = std::make_pair(first, second);
 
 	std::cout << pairTest.first << " " << pairTest.second << std::endl;
-
+	
 	return 1;
 }
