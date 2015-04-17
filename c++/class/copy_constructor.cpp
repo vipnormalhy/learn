@@ -2,22 +2,29 @@
 
 class test{
 public:
-	test(test &); // copy constructor
-	test(int value);
+	test(const test &temp_obj); // copy constructor
+	test(const int value);
+	test();
 	test &operator=(int value);
 private:
 	int a;
 };
 
-test::test(test &obj)
+test::test()
 {
-	std::cout << "Enter copy test" << std::endl;
+	a = 0;
 }
 
-test::test(int value)
+test::test(const int value)
 {
-	std::cout << "Enter constructor" << std::endl;
 	a = value;
+}
+
+test::test(const test &obj)
+{
+	std::cout << "Enter copy test" << std::endl;
+
+	a = obj.a;
 }
 
 test & test::operator=(int val)
@@ -40,6 +47,15 @@ int main()
 
 	std::cout << "Iinit object by other object" << std::endl;
 	test d = c;
+
+	test e(c);
+
+	std::cout << "change value" << std::endl;
+	e = 4;
+
+	test f;
+
+	f = 5;
 
 	return 1;
 }
