@@ -17,6 +17,7 @@ test::test()
 
 test::test(const int value)
 {
+	std::cout << "Enter Constructor" << std::endl;
 	a = value;
 }
 
@@ -33,6 +34,39 @@ test & test::operator=(int val)
 
 	std::cout << "Enter Operator func" << std::endl;
 	return *this;
+}
+
+class testb{
+public:
+	testb(const testb &obj);
+	testb(const int value);
+	testb(const test &obj);
+private:
+	test cTestobj;
+	int c;
+};
+
+testb::testb(const testb &obj)
+{
+	c = obj.c;
+	cTestobj = obj.cTestobj;
+
+	std::cout << "Enter b copy constructor" << std::endl;
+}
+
+testb::testb(const int value)
+{
+	c = value;
+
+	std::cout << "Enter b constructor" << std::endl;
+}
+
+testb::testb(const test &obj)
+{
+	c = 0;
+	cTestobj = obj;
+
+	std::cout << "Enter b class constructor" << std::endl;
 }
 
 int main()
@@ -56,6 +90,9 @@ int main()
 	test f;
 
 	f = 5;
+
+	testb g(f);
+	testb h = test();
 
 	return 1;
 }
