@@ -1,5 +1,20 @@
 #include <iostream>
 
+class cOther{
+public:
+	cOther();
+	inline int get_value() {return b;};
+private:
+	int b;
+};
+
+cOther::cOther()
+{
+	b = 1;
+	std::cout << "Enter cOther constructor" << b << std::endl;
+}
+
+
 class cBase{
 public:
 	cBase();
@@ -31,6 +46,8 @@ public:
 	cInherit();
 	cInherit(int i);
 	~cInherit();
+private:
+	cOther cobj;
 };
 
 cInherit::cInherit()
