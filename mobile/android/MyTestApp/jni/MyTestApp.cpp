@@ -5,13 +5,14 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <errno.h>
 
 #define MAX_NAME_LEN 255
 
 JNIEXPORT void JNICALL Java_com_normalhy_mytestapp_MainActivity_OnMyNativeClick(JNIEnv *, jobject)
 {
 	char pHostName[MAX_NAME_LEN];
-	char pHOstIp[MAX_NAME_LEN];
+	char pHostIp[MAX_NAME_LEN];
 	struct in_addr sHostAdd;
 	struct hostent *sHostent;
 
@@ -22,6 +23,13 @@ JNIEXPORT void JNICALL Java_com_normalhy_mytestapp_MainActivity_OnMyNativeClick(
 	}
 
 	sHostent = gethostbyname(pHostName);
+
+	if (!sHostent)
+	{
+		__android_log_print(ANDROID_LOG_INFO, "test_app", "cannot find ip, err:%d herrnu:%d", errno, h_errno);
+		return;
+	}
+	
 	for (int i = 0; i < sizeof(sHostent->h_addr_list); i++)
 	{
 		sHostAdd.s_addr = *((long *)(sHostent->h_addr_list + i));

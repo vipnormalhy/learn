@@ -4,6 +4,6 @@
     <string name="app_name">MyTestApp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="Call_Native">Call Native log</string>
+    <string name="Call_Native">Display IP Info</string>
 
 </resources>
