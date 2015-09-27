@@ -3,7 +3,7 @@
 #include <string>
 #include <string.h>
 
-int main()
+int learn_about_type_convert()
 {
 	int v1 = 0, v2 = 0;
 	unsigned int u1 = 10;
@@ -22,6 +22,28 @@ int main()
 	std::cin >> v1 >> v2;
 
 	std::cout << "The number " << v1 << " and " << v2 << " is : " << v1 + v2 << std::endl;
+
+	return 1;
+}
+
+// compiler display warning about narrowing conversion but not error
+int learn_about_list_initization()
+{
+	float a = 4.5f;
+	int b{a};
+	int c = {a};
+	int d = a;
+	int e(a);
+
+	std::cout << a << b << c << d << e << std::endl;
+
+	return 1;
+}
+
+int main()
+{
+	//learn_about_type_convert();
+	learn_about_list_initization();
 
 	return 1;
 }
