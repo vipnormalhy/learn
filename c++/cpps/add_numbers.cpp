@@ -4,6 +4,9 @@
 #include <cstring>
 #include <vector>
 #include <cstdarg>
+#include <cstdlib>
+
+auto varargs_func(int, ...) -> int;
 
 int learn_about_type_convert()
 {
@@ -25,7 +28,7 @@ int learn_about_type_convert()
 
 	std::cout << "The number " << v1 << " and " << v2 << " is : " << v1 + v2 << std::endl;
 
-	return 1;
+	return EXIT_SUCCESS;
 }
 
 // compiler display warning about narrowing conversion but not error
@@ -39,7 +42,7 @@ int learn_about_list_initization()
 
 	std::cout << a << b << c << d << e << std::endl;
 
-	return 1;
+	return EXIT_SUCCESS;
 }
 
 int const_expression()
@@ -52,7 +55,7 @@ int const_expression()
 	std::cout << a << b << std::endl;
 	std::cout << c << d << std::endl;
 
-	return 1;
+	return EXIT_SUCCESS;
 }
 
 int test()
@@ -75,13 +78,13 @@ int test()
 	c = a;
 
 	std::cout << a << b << c << std::endl;
-	return 1;
+	return EXIT_SUCCESS;
 }
 
 int print_size(int *p_array)
 {
 	std::cout << "param size is = " << sizeof p_array << std::endl;
-	return 1;
+	return EXIT_SUCCESS;
 }
 
 int calc_array_size()
@@ -96,7 +99,7 @@ int calc_array_size()
 	std::cout << "size of first eleme pointer = " << sizeof pInt << std::endl;
 
 	print_size(a);
-	return 1;
+	return EXIT_SUCCESS;
 }
 
 int varargs_func(const char *msg, ...)
@@ -110,7 +113,7 @@ int varargs_func(const char *msg, ...)
 		std::cout << param << std::endl;
 	}
 	va_end(v_list);
-	return 1;
+	return EXIT_SUCCESS;
 }
 
 int main()
@@ -123,6 +126,6 @@ int main()
 	varargs_func("errr", 10, 100, 1000, 1, -1);
 	varargs_func("dddd", 1, 1, -1);
 
-	return 1;
+	return EXIT_FAILURE;
 }
 
