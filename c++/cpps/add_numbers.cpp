@@ -1,7 +1,9 @@
 // Add the number the user input
 #include <iostream>
 #include <string>
-#include <string.h>
+#include <cstring>
+#include <vector>
+#include <cstdarg>
 
 int learn_about_type_convert()
 {
@@ -40,10 +42,86 @@ int learn_about_list_initization()
 	return 1;
 }
 
+int const_expression()
+{
+	const int a = 4;
+	constexpr int b = a * 4;
+	int c = 5;
+	const int d = c * 4;
+
+	std::cout << a << b << std::endl;
+	std::cout << c << d << std::endl;
+
+	return 1;
+}
+
+int test()
+{
+	int a = 3;
+	auto b = a;
+	decltype(a) c;
+	std::vector<int> va;
+	
+	std::cout << "sizeof va = " << sizeof va << std::endl;
+	for (int i = 0; i < 1000; i++)
+	{
+		va.push_back(i);
+	}
+	std::cout << "sizeof va = " << sizeof va << std::endl;
+
+	int d = (3+4,4);
+	std::cout << "d = " << d << std::endl;
+
+	c = a;
+
+	std::cout << a << b << c << std::endl;
+	return 1;
+}
+
+int print_size(int *p_array)
+{
+	std::cout << "param size is = " << sizeof p_array << std::endl;
+	return 1;
+}
+
+int calc_array_size()
+{
+	int a[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	int *pInt;
+
+	std::cout << "initial size = " << sizeof a << std::endl;
+	std::cout << "size of array = " << sizeof(a)/sizeof(int) << std::endl;
+
+	pInt = &a[0];
+	std::cout << "size of first eleme pointer = " << sizeof pInt << std::endl;
+
+	print_size(a);
+	return 1;
+}
+
+int varargs_func(const char *msg, ...)
+{
+	va_list v_list;
+	int param;
+
+	va_start(v_list, msg);
+	while((param = va_arg(v_list, int)) != -1)
+	{
+		std::cout << param << std::endl;
+	}
+	va_end(v_list);
+	return 1;
+}
+
 int main()
 {
 	//learn_about_type_convert();
-	learn_about_list_initization();
+	//learn_about_list_initization();
+	//const_expression();
+	//test();
+	//calc_array_size();
+	varargs_func("errr", 10, 100, 1000, 1, -1);
+	varargs_func("dddd", 1, 1, -1);
 
 	return 1;
 }

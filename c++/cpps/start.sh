@@ -3,9 +3,9 @@
 # compile files
 
 echo "Start Compile add number"
-echo "g++-4.8 -std=c++11 -Wall -o add_number add_numbers.cpp"
+echo "g++-5 -std=c++11 -Wall -o add_number add_numbers.cpp"
 
-g++-4.8 -std=c++11 -Wall -o add_number add_numbers.cpp
+g++-5 -std=c++11 -Wall -o add_number add_numbers.cpp
 
 if [ $? != 0 ]
 then
