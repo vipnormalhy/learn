@@ -69,15 +69,27 @@ int test_sort()
 	return 1;
 }
 
+static int global_i = 1;
+
 int test_lambda1()
 {
 	int c = 1;
-	int &lam1 = [c](int &ri) -> int& {ri = ri + c;return ri;};
-	int d;
+	std::vector<int> vi = {0,1,2,3,4,};
+	
+	auto func1 = [&]() {c=45;return c;};
+	auto func2 = [&vi]() {vi[3] = 20;return vi;};
+	auto func3 = [=]() {++global_i;};
 
-	c = 2;
-	std::cout << "lambda = " << lam1(d) << "d = " << d;
+	func2();
+	std::cout << func2()[3] << vi[3] << std::endl;
 
+	c = 10;
+	std::cout << func1() << c << std::endl;
+
+	std::cout << "global = " << global_i << std::endl;
+	func3();
+	std::cout << "global = " << global_i << " after lambda" << std::endl;
+	
 	return 1;
 }
 
@@ -86,7 +98,7 @@ int main()
 	test_copy();
 	test_replace();
 	test_sort();
-	test_lambda();
+	test_lambda1();
 
 	return 1;
 }
