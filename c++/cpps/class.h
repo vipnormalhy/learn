@@ -14,11 +14,12 @@ public:
 	const unsigned int get_ref_amount();
 	inline const std::string get_path() {return object_path;};
 	void tie_test();
+	int get_d() const;
 private:
 	unsigned int ref;
 	std::string object_path;
 	const static int ref_num = 0;
-	int d;
+	int d = 0;
 };
 
 #endif

@@ -55,6 +55,14 @@ void TestObject::tie_test()
 // 	std::cout << "Enter constructor function" << std::endl;
 // }
 
+int TestObject::get_d() const
+{
+	int *p = const_cast<int *>(&d);
+
+	*p += 1;
+	return *p;
+}
+
 int main()
 {
 	TestObject to;
@@ -71,6 +79,8 @@ int main()
 	std::cout << to2.get_ref_amount() << std::endl;
 
 	to.tie_test();
+
+	std::cout << to.get_d() << std::endl;
 	
 	return 1;
 }
