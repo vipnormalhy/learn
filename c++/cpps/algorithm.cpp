@@ -3,6 +3,7 @@
 #include <vector>
 #include <iterator>
 #include <string>
+#include <functional>
 
 int test_copy()
 {
@@ -76,8 +77,8 @@ int test_lambda1()
 	int c = 1;
 	std::vector<int> vi = {0,1,2,3,4,};
 	
-	auto func1 = [&]() {c=45;return c;};
-	auto func2 = [&vi]() {vi[3] = 20;return vi;};
+	auto func1 = [&c]() {c=45;return c;};
+	auto func2 = [&vi]() -> std::vector<int> {vi[3] = 20;return vi;};
 	auto func3 = [=]() {++global_i;};
 
 	func2();
@@ -93,12 +94,39 @@ int test_lambda1()
 	return 1;
 }
 
+int putout_string(std::string &s, size_t len)
+{
+	if (s.size() > len)
+	{
+		std::cout << s << std::endl;
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+int test_bind()
+{
+	std::vector<std::string> vs{"the", "quick", "red", "fox", "jumps", "over", "the", "slow", "red", "turtls"};
+
+	using namespace std::placeholders;
+	
+	for_each(vs.begin(), vs.end(), bind(putout_string, _1, 3));
+	find_if(vs.begin(), vs.end(), bind(putout_string, _1, 3));
+	
+	return 1;
+}
+	
+
 int main()
 {
 	test_copy();
 	test_replace();
 	test_sort();
 	test_lambda1();
+	test_bind();
 
 	return 1;
 }
