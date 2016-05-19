@@ -1,7 +1,7 @@
 from distutils.core import setup, Extension
 
-module1 = Extension('demo',
-                    sources = ['hello.cpp'])
+module1 = Extension('csocket',
+                    sources = ['csocket.cpp'])
 
 setup (name = 'PackageName',
        version = '1.0',
