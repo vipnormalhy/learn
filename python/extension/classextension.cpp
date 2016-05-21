@@ -117,8 +117,8 @@ static PyTypeObject studentclass = {
 
 PyMODINIT_FUNC initstudent()
 {
+	studentclass.tp_new = PyType_GenericNew;
 	PyObject *module = Py_InitModule("student", pystudent_method);
-	cout << "Start init student module!!!" << endl;
 	if (!module)
 	{
 		cout << "Init student module Failed!!!!" << endl;
