@@ -52,7 +52,7 @@ static void PyStudent_dealloc(PyStudent *self)
 
 PyStudent *pStudent;
 
-static void PyStudent_init(PyStudent *self, PyObject *args)
+static PyObject *PyStudent_init(PyStudent *self, PyObject *args)
 {
 	const char *pName = NULL;
 
@@ -60,7 +60,7 @@ static void PyStudent_init(PyStudent *self, PyObject *args)
 	if (!PyArg_ParseTuple(args, "s", &pName))
 	{
 		cout << "Parse student args FAILED!!!" << endl;
-		return;
+		return NULL;
 	}
 	else
 	{
@@ -72,6 +72,7 @@ static void PyStudent_init(PyStudent *self, PyObject *args)
 	self->name = new char[namelen + 1];
 	strncpy(self->name, pName, namelen + 1);
 	pStudent = self;
+	Py_RETURN_NONE;
 };
 
 static PyObject *student_getid(PyStudent *self)
@@ -170,7 +171,7 @@ int main()
 	PyRun_SimpleString("a.id = 3");
 	PyRun_SimpleString("print a.id");
 	PyRun_SimpleString("print a.name");
-	cout << "In c layer, self id is " << pStudent->id << " name is " << pStudent->name << endl;
+	cout << "In c layer, self id is " << pStudent->id << " name is " << pStudent->name << "refcnt is " << Py_REFCNT(pStudent) << endl;
 	Py_Finalize();
 	return 0;
 }
