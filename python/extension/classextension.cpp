@@ -50,6 +50,8 @@ static void PyStudent_dealloc(PyStudent *self)
 	Py_TYPE(self)->tp_free((PyObject *)self);
 };
 
+PyStudent *pStudent;
+
 static void PyStudent_init(PyStudent *self, PyObject *args)
 {
 	const char *pName = NULL;
@@ -69,6 +71,7 @@ static void PyStudent_init(PyStudent *self, PyObject *args)
 	cout << "name len is " << namelen << endl;
 	self->name = new char[namelen + 1];
 	strncpy(self->name, pName, namelen + 1);
+	pStudent = self;
 };
 
 static PyObject *student_getid(PyStudent *self)
@@ -120,19 +123,17 @@ static PyTypeObject studentclass = {
 	0,   // tp distoffset
 	(initproc)PyStudent_init,
 	0,  // tp_allocate
-	0,  // tp_new
+	(newfunc)PyType_GenericNew,  // tp_new
 };
 
 PyMODINIT_FUNC initstudent()
 {
-	studentclass.tp_new = PyType_GenericNew;
 	PyObject *module = Py_InitModule("student", pystudent_method);
 	if (!module)
 	{
 		cout << "Init student module Failed!!!!" << endl;
 		return;
 	}
-	studentclass.tp_new = PyType_GenericNew;
 
 	if (PyType_Ready(&studentclass) < 0)
 	{
@@ -166,6 +167,10 @@ int main()
 	PyRun_SimpleString("print student.student");
 	PyRun_SimpleString("type(student.student)");
 	PyRun_SimpleString("a = student.student(\"aa\")");
+	PyRun_SimpleString("a.id = 3");
+	PyRun_SimpleString("print a.id");
+	PyRun_SimpleString("print a.name");
+	cout << "In c layer, self id is " << pStudent->id << " name is " << pStudent->name << endl;
 	Py_Finalize();
 	return 0;
 }
