@@ -47,13 +47,7 @@ static void PyStudent_dealloc(PyStudent *self)
 		delete [] self->name;
 	}
 
-// #ifndef Py_TYPE
-// 	cout << "There is not define Py_TYPE" << endl;
-// 	free((PyObject *)self);
-// #else
-// 	(Py_TYPE)(self)->tp_free((PyObject *)self);
-// #endif
-	free((PyObject *)self);
+	Py_TYPE(self)->tp_free((PyObject *)self);
 };
 
 static void PyStudent_init(PyStudent *self, PyObject *args)
