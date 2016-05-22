@@ -58,21 +58,33 @@ static void PyStudent_dealloc(PyStudent *self)
 
 static void PyStudent_init(PyStudent *self, PyObject *args)
 {
-	char *pName = NULL;
+	const char *pName = NULL;
 
 	cout << "enter student init func" << endl;
-	if (!PyArg_ParseTuple(args, "s", pName))
+	if (!PyArg_ParseTuple(args, "s", &pName))
 	{
 		cout << "Parse student args FAILED!!!" << endl;
 		return;
 	}
+	else
+	{
+		cout << "Parse student args succ" << endl;
+	}
 
 	size_t namelen = strlen(pName);
+	cout << "name len is " << namelen << endl;
 	self->name = new char[namelen + 1];
-	strncpy(pName, self->name, namelen);
+	strncpy(self->name, pName, namelen + 1);
 };
 
+static PyObject *student_getid(PyStudent *self)
+{
+	cout << "Student's id is " << self->id << endl;
+	return Py_BuildValue("i", self->id);
+}
+
 static PyMethodDef student_method[] = {
+	{"getid", (PyCFunction)student_getid, METH_O, "get student's id"},
 	{NULL, NULL, 0, NULL},
 };
 
@@ -96,11 +108,7 @@ static PyTypeObject studentclass = {
 	0,  // getattro func
 	0,  // setattro func
 	0,  // buffer func
-#ifndef PY_TYPEFLAGS_DEFAULT
-	0,
-#else
-	PY_TYPEFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  // tp_flags
-#endif
+	Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
 	"student test class",  // doc
 	0,  // tp_traverse
 	0,  // tp clear
@@ -130,6 +138,7 @@ PyMODINIT_FUNC initstudent()
 		cout << "Init student module Failed!!!!" << endl;
 		return;
 	}
+	studentclass.tp_new = PyType_GenericNew;
 
 	if (PyType_Ready(&studentclass) < 0)
 	{
@@ -151,3 +160,18 @@ PyMODINIT_FUNC initstudent()
 
 	return;
 };
+
+// for test
+int main()
+{
+	Py_Initialize();
+
+	initstudent();
+	
+	PyRun_SimpleString("import student");
+	PyRun_SimpleString("print student.student");
+	PyRun_SimpleString("type(student.student)");
+	PyRun_SimpleString("a = student.student(\"aa\")");
+	Py_Finalize();
+	return 0;
+}
