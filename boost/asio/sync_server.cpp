@@ -10,7 +10,7 @@ std::string get_date_string() {
 
 int main() {
     boost::asio::io_service io;
-    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v6(), 13);
+    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), 52562);
     boost::asio::ip::tcp::acceptor acceptor(io, endpoint);
 
     while(true) {

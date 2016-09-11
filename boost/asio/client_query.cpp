@@ -7,7 +7,7 @@ int main() {
 
     boost::asio::ip::tcp::resolver resolver(io);
     // boost::asio::ip::tcp::resolver::query query("www.baidu.com", "http");
-    boost::asio::ip::tcp::resolver::query query(boost::asio::ip::tcp::v4(), "13");
+    boost::asio::ip::tcp::resolver::query query(boost::asio::ip::tcp::v4(), "52562");
     boost::asio::ip::tcp::resolver::iterator endpoint_iter = resolver.resolve(query);
     boost::asio::ip::tcp::resolver::iterator end;
     boost::asio::ip::tcp::socket socket(io);
@@ -32,8 +32,10 @@ int main() {
                 break;
             }
             else {
-                std::cout << "Fatal ERROR!!! " << e << std::endl;
-                break;
+                if (e) {
+                    std::cout << "Fatal ERROR!!! " << e << std::endl;
+                    break;
+                }
             }
 
             std::cout.write(buf.data(), len);
