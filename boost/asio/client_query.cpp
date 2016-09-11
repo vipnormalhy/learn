@@ -6,7 +6,8 @@ int main() {
     boost::asio::io_service io;
 
     boost::asio::ip::tcp::resolver resolver(io);
-    boost::asio::ip::tcp::resolver::query query("www.baidu.com", "http");
+    // boost::asio::ip::tcp::resolver::query query("www.baidu.com", "http");
+    boost::asio::ip::tcp::resolver::query query(boost::asio::ip::tcp::v4(), "13");
     boost::asio::ip::tcp::resolver::iterator endpoint_iter = resolver.resolve(query);
     boost::asio::ip::tcp::resolver::iterator end;
     boost::asio::ip::tcp::socket socket(io);
