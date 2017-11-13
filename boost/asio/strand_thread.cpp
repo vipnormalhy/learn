@@ -5,6 +5,7 @@
 #include <iostream>
 
 boost::asio::io_service io_service;
+boost::asio::io_service io_service2;
 boost::asio::strand strand(io_service);
 
 void print(int count) {
@@ -34,21 +35,25 @@ int main() {
     int count = 0;
     boost::thread t[10];
 
-    // for (int i = 0; i < 20; i++) {
-    //     // strand.dispatch(boost::bind(test_func, count++));        
-    //     // strand.post(boost::bind(test_func, count++));
-    //     // boost::asio::deadline_timer timer_(io_service, boost::posix_time::seconds(1));
-    //     io_service.dispatch(boost::bind(test_func, count++));        
-    //     io_service.post(boost::bind(test_func, count++));
-    // }
+    for (int i = 0; i < 20; i++) {
+        // strand.dispatch(boost::bind(test_func, count++));        
+        // strand.post(boost::bind(test_func, count++));
+        // boost::asio::deadline_timer timer_(io_service, boost::posix_time::seconds(1));
+        io_service.dispatch(boost::bind(test_func, count++));        
+        io_service.post(boost::bind(test_func, count++));
 
-    // for (int i = 0; i < 10; i++) {
-    //     t[i] = boost::thread(boost::bind(&boost::asio::io_service::run, &io_service));
-    //     // t[i] = boost::thread(boost::bind(test_func, count++));
-    // }
-    io_service.post(boost::bind(test_post));
+        io_service2.dispatch(boost::bind(test_func, count++));
+        io_service2.post(boost::bind(test_func, count++));
+    }
+
+    for (int i = 0; i < 5; i++) {
+        t[2*i] = boost::thread(boost::bind(&boost::asio::io_service::run, &io_service));
+        t[2*i+1] = boost::thread(boost::bind(&boost::asio::io_service::run, &io_service2));
+        // t[i] = boost::thread(boost::bind(test_func, count++));
+    }
+    // io_service.post(boost::bind(test_post));
     // strand.dispatch(boost::bind(test_func, 89));
-    io_service.run();
+    // io_service.run();
     // for (int i = 0; i < 10; i++) {
     //     t[i].join();
     // }
