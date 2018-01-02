@@ -17,3 +17,4 @@ include_directories(${LOCAL_BOOST_DIRECTORY}/include)
 link_directories(${LOCAL_BOOST_DIRECTORY}/lib)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+target_link_libraries(${PROJECT_NAME} boost_system boost_filesystem pthread boost_thread boost_regex boost_program_options)
