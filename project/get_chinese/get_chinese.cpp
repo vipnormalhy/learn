@@ -17,9 +17,9 @@ int main(int argc, char *argv[]) {
 
     options_desc.add_options()
         ("help,h", "show help info")
-        ("dirpath,d", "scan root path")
-        ("postfix,p", "filename postfix")
-        ("method,m", "find method's call string");
+        ("dirpath,d", po::value<std::string>(), "scan root path")
+        ("postfix,p", po::value<std::string>(), "filename postfix")
+        ("method,m", po::value<std::string>(), "find method's call string");
     
 
     if (argc < 2) {
@@ -44,7 +44,6 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    std::cout << "path " << vm["dirpath"].as<std::string>() << "********" << std::endl;
     dirpath = vm["dirpath"].as<std::string>();
     if (!boost::filesystem::exists(dirpath)) {
         std::cout << "dirname " << dirpath << " not exists!!!" << std::endl;
