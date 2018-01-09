@@ -19,6 +19,7 @@ void test_delay_func(boost::asio::strand &strand) {
 }
 
 int main() {
+    boost::mutex _mtx;
     boost::asio::io_service io;
     boost::asio::strand strand(io);
     boost::asio::io_service io2;

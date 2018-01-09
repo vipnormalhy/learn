@@ -5,6 +5,30 @@
 
 namespace po = boost::program_options;
 
+void handle_file(std::string filename, std::string &filename_postfix, std::string &method_call) {
+    std::string::size_type pos = filename.rfind(filename_postfix);
+    if (pos == std::string::npos) {
+        return;
+    }
+
+    std::string::size_type filename_len = filename.size();
+    std::string::size_type postfix_len = filename_postfix.size();
+
+    if (pos != filename_len - postfix_len) {
+        return;
+    }
+
+    std::cout << "find file" << filename << std::endl;
+    return;
+}
+
+void handle_directory(boost::filesystem::path dirpath, std::string &filename_postfix, std::string &method_call) {
+    for (auto path_entry : boost::filesystem::recursive_directory_iterator(dirpath)) {
+        if (boost::filesystem::is_regular_file(path_entry.path())) {
+            handle_file(path_entry.path().c_str(), filename_postfix, method_call);
+        }
+    }
+}
 
 
 int main(int argc, char *argv[]) {
@@ -59,9 +83,14 @@ int main(int argc, char *argv[]) {
         method_call = vm["method"].as<std::string>();
     }
 
-    std::cout << "dirpath" << dirpath << std::endl;
-    std::cout << "postfix" << filename_postfix << std::endl;
-    std::cout << "method" << method_call << std::endl;
-
+    // handle directory or regular file
+    if (BOOST_UNLIKELY(boost::filesystem::is_regular_file(dirpath))) {
+        handle_file(dirpath, filename_postfix, method_call);
+    } else if (BOOST_LIKELY(boost::filesystem::is_directory(dirpath))) {
+        handle_directory(dirpath, filename_postfix, method_call);        
+    } else {
+        std::cout << "Cannot find " << dirpath << std::endl;
+        return -1;
+    }
     return 0;
 }
