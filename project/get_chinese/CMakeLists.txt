@@ -16,12 +16,25 @@ include_directories(${LOCAL_BOOST_DIRECTORY}/include)
 # library directories
 link_directories(${LOCAL_BOOST_DIRECTORY}/lib)
 
+message(STATUS "boost local directory is " ${LOCAL_BOOST_DIRECTORY})
+
 # find static library
-find_library(BOOST_SYSTEM_LIB libboost_system.a)
-find_library(BOOST_FILESYSTEM_LIB libboost_filesystem.a)
-find_library(BOOST_THREAD_LIB libboost_thread.a)
-find_library(BOOST_REGEX_LIB libboost_regex.a)
-find_library(BOOST_PROGRAM_OPTIONS_LIB libboost_program_options.a)
+find_library(BOOST_SYSTEM_LIB
+  NAMES libboost_system.a
+  PATHS ${LOCAL_BOOST_DIRECTORY}/lib)
+find_library(BOOST_FILESYSTEM_LIB
+  NAMES libboost_filesystem.a
+  PATHS ${LOCAL_BOOST_DIRECTORY}/lib)
+find_library(BOOST_THREAD_LIB
+  NAMES libboost_thread.a
+  PATHS ${LOCAL_BOOST_DIRECTORY}/lib)
+find_library(BOOST_REGEX_LIB
+  NAMES libboost_regex.a
+  PATHS ${LOCAL_BOOST_DIRECTORY}/lib)
+find_library(BOOST_PROGRAM_OPTIONS_LIB
+  NAMES libboost_program_options.a
+  PATHS ${LOCAL_BOOST_DIRECTORY}/lib)
+
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
