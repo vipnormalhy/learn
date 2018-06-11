@@ -2,6 +2,32 @@
 
 namespace HelloWorldApp
 {
+	class TestStudent {
+		private string _name;
+
+		public string Name {
+			get {
+				return _name;
+			}
+			private set {
+				_name = value;
+			}
+		}
+
+		public int ID {get; private set;}
+
+		public void ChangeUserName(string name) {
+			Name = name;
+		}
+
+		public TestStudent(int sid, string name) {
+			ID = sid;
+			Name = name;
+		}
+
+		public string toString() => $"Student {Name}({ID})";
+	}
+
 	class Program
 	{
 		static void Main(string[] args)
@@ -22,6 +48,10 @@ namespace HelloWorldApp
 			for (int i = 0; i < args.Length; i++) {
 				Console.WriteLine("args: " + args[i]);
 			}
+
+			// Init one student
+			var student_a = new TestStudent(1, "Normal");
+			Console.WriteLine(student_a.toString());
 		}
 	}
 }
