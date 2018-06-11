@@ -2,6 +2,20 @@
 
 namespace HelloWorldApp
 {
+	struct TestRectangle {
+		public int Width {get; set;}
+		public int Length {get; set;}
+
+		public string OutPutInfo() => $"test rectangle value width:{Width}, length:{Length}";
+	}
+
+	class TestRectangleClass {
+		public int Width {get; set;}
+		public int Length {get; set;}
+
+		public string OutPutInfo() => $"test rectangle value width:{Width}, length:{Length}";
+	}
+
 	class TestStudent {
 		private string _name;
 
@@ -14,15 +28,21 @@ namespace HelloWorldApp
 			}
 		}
 
+		public int Order {get; set;}
+
 		public int ID {get; private set;}
 
 		public void ChangeUserName(string name) {
 			Name = name;
 		}
 
-		public TestStudent(int sid, string name) {
+		public TestStudent(int sid, string name, int order = 0) {
 			ID = sid;
 			Name = name;
+			Order = order;
+		}
+
+		public TestStudent(string name): this(name: name, sid: 0, order: 0) {
 		}
 
 		public string toString() => $"Student {Name}({ID})";
@@ -30,6 +50,24 @@ namespace HelloWorldApp
 
 	class Program
 	{
+		static void TestRef(ref TestRectangle a) {
+			a.Width = 3;
+			a.Length = 5;
+		}
+
+		static void TestValue(TestRectangle a) {
+			a.Width = 3;
+			a.Length = 5;
+		}
+
+		static void TestClassRef(ref TestRectangleClass a) {
+			Console.WriteLine($"ref class type is {a.GetType()}");
+
+			a = new TestRectangleClass();
+			a.Width = 3;
+			a.Length = 5;
+		}
+
 		static void Main(string[] args)
 		{
 			Console.WriteLine("Hello World!");
@@ -50,8 +88,37 @@ namespace HelloWorldApp
 			}
 
 			// Init one student
-			var student_a = new TestStudent(1, "Normal");
+			var student_a = new TestStudent(name: "Normal", sid: 1, order: 1);
 			Console.WriteLine(student_a.toString());
+
+			TestRectangle test_rectangle = new TestRectangle();
+			test_rectangle.Width = 10;
+			test_rectangle.Length = 10;
+
+			// output initial data
+			Console.WriteLine(test_rectangle.OutPutInfo());
+
+			// use value
+			TestValue(test_rectangle);
+			Console.WriteLine("after change value");
+			Console.WriteLine(test_rectangle.OutPutInfo());
+
+			// use ref
+			TestRef(ref test_rectangle);
+			Console.WriteLine("after change value by ref");
+			Console.WriteLine(test_rectangle.OutPutInfo());
+
+			TestRectangleClass test_rec2 = new TestRectangleClass();
+			test_rec2.Width = 10;
+			test_rec2.Length = 10;
+
+			TestClassRef(ref test_rec2);
+			Console.WriteLine(test_rec2.OutPutInfo());
+
+			Console.WriteLine($"rectangle type is {test_rec2.GetType()}");
+
+			ref var test_type = ref test_rec2;
+			Console.WriteLine($"type is {test_type.GetType()}");
 		}
 	}
 }
