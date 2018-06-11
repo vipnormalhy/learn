@@ -9,11 +9,15 @@ namespace HelloWorldApp
 		public string OutPutInfo() => $"test rectangle value width:{Width}, length:{Length}";
 	}
 
-	class TestRectangleClass {
+	partial class TestRectangleClass {
 		public int Width {get; set;}
 		public int Length {get; set;}
 
 		public string OutPutInfo() => $"test rectangle value width:{Width}, length:{Length}";
+	}
+
+	partial class TestRectangleClass {
+		public string OutputInfo2() => $"test rectangle value width:{Width}";
 	}
 
 	class TestStudent {
@@ -119,6 +123,13 @@ namespace HelloWorldApp
 
 			ref var test_type = ref test_rec2;
 			Console.WriteLine($"type is {test_type.GetType()}");
+
+			string test_string = "i am a boy. And I am a handsome boy";
+			Console.WriteLine($"strign word count is {test_string.GetWordCount()}");
 		}
+	}
+
+	static public class StringExtendClass {
+		public static int GetWordCount(this string line) => line.Split().Length;
 	}
 }
