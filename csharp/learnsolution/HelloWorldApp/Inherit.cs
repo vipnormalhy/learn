@@ -32,6 +32,7 @@ namespace HelloWorldApp {
 		decimal Currency {get;}
 		bool Withdraw(decimal delta);
 		bool PayIn(decimal delta);
+		string OutPutInfo();
 	}
 
 	public class TestBank: IBankAccount {
@@ -65,10 +66,10 @@ namespace HelloWorldApp {
 			return true;
 		}
 
-		public string OutPutInfo() => $"Balance is ${Currency}";
+		virtual public string OutPutInfo() => $"Balance is ${Currency}";
 	}
 
 	public class TestBank2: TestBank {
-		new public string OutPutInfo() => $"Balance is ${Currency, 6:C}";
+		override public string OutPutInfo() => $"Balance is ${Currency, 6:C}";
 	}
 }
