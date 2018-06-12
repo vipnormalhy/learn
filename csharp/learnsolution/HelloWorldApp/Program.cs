@@ -126,6 +126,19 @@ namespace HelloWorldApp
 
 			string test_string = "i am a boy. And I am a handsome boy";
 			Console.WriteLine($"strign word count is {test_string.GetWordCount()}");
+
+			var player = new PlayerAvatar();
+			var enemy = new MonsterAvatar();
+			Entity entity = player;
+
+			Console.WriteLine(entity.TellSelf());
+
+			TestBank2 test_account = new TestBank2();
+			Console.WriteLine(test_account.OutPutInfo());
+			test_account.PayIn((decimal)3478.5);
+			Console.WriteLine(test_account.OutPutInfo());
+			test_account.Withdraw((decimal)545.786);
+			Console.WriteLine(test_account.OutPutInfo());
 		}
 	}
 
