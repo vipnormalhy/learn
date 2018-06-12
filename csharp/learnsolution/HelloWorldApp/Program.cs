@@ -133,7 +133,7 @@ namespace HelloWorldApp
 
 			Console.WriteLine(entity.TellSelf());
 
-			IBankAccount test_account = new TestBank2();
+			IBankAccount test_account = new TestBank2() as IBankAccount;
 			Console.WriteLine(test_account.OutPutInfo());
 			test_account.PayIn((decimal)3478.5);
 			Console.WriteLine(test_account.OutPutInfo());
