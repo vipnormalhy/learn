@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace HelloWorldApp {
 	abstract class Entity {
@@ -72,4 +73,63 @@ namespace HelloWorldApp {
 	public class TestBank2: TestBank {
 		override public string OutPutInfo() => $"Balance is ${Currency, 6:C}";
 	}
+
+	unsafe class UnsafeTest {
+		public void SizeofTest() {
+			int *p_int = null;
+			double *p_double = null;
+
+			Console.WriteLine($"sizeof int pointer is {sizeof(int *)}, sizeof double pointer is {sizeof(double *)}");
+
+			// start pos
+			Console.WriteLine($"int pointer starts pos 0x{(ulong)p_int:X}");
+			Console.WriteLine($"double pointer starts pos 0x{(ulong)p_double:X}");
+
+			p_int += 1;
+			p_double += 1;
+			Console.WriteLine($"int pointer next pos 0x{(ulong)p_int:X}");
+			Console.WriteLine($"double pointer next pos 0x{(ulong)p_double:X}");
+		}
+		
+		public static void* NewHeap(int allocate_size) {
+			return Marshal.AllocHGlobal(allocate_size).ToPointer();
+		}
+
+		public static void FreeHeap(void *pointer) {
+			Marshal.FreeHGlobal((IntPtr)pointer);
+		}
+	}
+
+	// static unsafe class Unmanaged
+	// {
+	// 	public static void* New<T>(int elementCount) 
+	// 	where T : struct
+	// 	{
+	// 		return Marshal.AllocHGlobal(sizeof(T) * elementCount).ToPointer();
+	// 	}
+
+	// 	public static void* NewAndInit<T>(int elementCount)
+	// 	where T : struct
+	// 	{
+	// 		int newSizeInBytes = sizeof(T) * elementCount;
+	// 		byte* newArrayPointer = (byte*) Marshal.AllocHGlobal(newSizeInBytes).ToPointer();
+
+	// 		for (int i = 0; i < newSizeInBytes; i++)
+	// 			*(newArrayPointer + i) = 0;
+
+	// 		return (void*) newArrayPointer;
+	// 	}
+
+	// 	public static void Free(void* pointerToUnmanagedMemory)
+	// 	{
+	// 		Marshal.FreeHGlobal(new IntPtr(pointerToUnmanagedMemory));
+	// 	}
+
+	// 	public static void* Resize<T>(void* oldPointer, int newElementCount) 
+	// 	where T : struct
+	// 	{
+	// 		return (Marshal.ReAllocHGlobal(new IntPtr(oldPointer),
+	// 			new IntPtr(sizeof(T)) * newElementCount))).ToPointer();
+	// 	}
+	// }
 }

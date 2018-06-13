@@ -147,6 +147,24 @@ namespace HelloWorldApp
 					Console.WriteLine(a.TellSelf());
 				}
 			}
+
+			TestUnsafe();
+			TestMallocHeap();
+		}
+
+		static private void TestUnsafe() {
+			UnsafeTest test_obj = new UnsafeTest();
+			test_obj.SizeofTest();
+		}
+
+		unsafe static private void TestMallocHeap() {
+			int* p = (int *)UnsafeTest.NewHeap(sizeof(int) * 1024 * 100);	
+			// char *p = stackalloc char[1024 * 100];
+			Console.ReadLine();
+
+			for (int i = 0; i < 102400; i++, p++) {
+				*p = 1;
+			}
 		}
 	}
 
