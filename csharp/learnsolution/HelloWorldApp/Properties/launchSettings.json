@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "HelloWorldApp": {
+      "commandName": "Project",
+      "commandLineArgs": "i am a boy. Test arguments"
+    }
+  }
+}
