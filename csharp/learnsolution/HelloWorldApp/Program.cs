@@ -139,6 +139,14 @@ namespace HelloWorldApp
 			Console.WriteLine(test_account.OutPutInfo());
 			test_account.Withdraw((decimal)545.786);
 			Console.WriteLine(test_account.OutPutInfo());
+
+			WeakReference weak_entity = new WeakReference(entity);
+			if (weak_entity.IsAlive) {
+				Entity a = weak_entity.Target as Entity;
+				if (a != null) {
+					Console.WriteLine(a.TellSelf());
+				}
+			}
 		}
 	}
 
