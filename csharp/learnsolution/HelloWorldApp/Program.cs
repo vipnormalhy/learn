@@ -150,21 +150,52 @@ namespace HelloWorldApp
 
 			TestUnsafe();
 			TestMallocHeap();
+
+			Console.WriteLine("Let's test stack alloc");
+			Console.ReadLine();
+			for (int i = 0; i < 100; i++) {
+				TestStackalloc();
+			}
+
+			Console.WriteLine("Let's test heap leak");
+			Console.ReadLine();
+			for (int i = 0; i < 100; i++) {
+				TestHeapalloc();
+			}
+			Console.ReadLine();
+
+			Console.WriteLine("Enter any key to end process");
+			Console.ReadLine();
 		}
 
-		static private void TestUnsafe() {
+		unsafe static private void TestUnsafe() {
 			UnsafeTest test_obj = new UnsafeTest();
 			test_obj.SizeofTest();
 		}
 
-		unsafe static private void TestMallocHeap() {
-			int* p = (int *)UnsafeTest.NewHeap(sizeof(int) * 1024 * 100);	
-			// char *p = stackalloc char[1024 * 100];
-			Console.ReadLine();
+		unsafe static private void TestStackalloc() {
+			char *p = stackalloc char[1024*100];
+			p[0] = '1';
+			return;
+		}
 
-			for (int i = 0; i < 102400; i++, p++) {
-				*p = 1;
-			}
+		unsafe static private void TestHeapalloc() {
+			// let's leak here
+			char *p = (char *)UnsafeTest.NewHeap(sizeof(char) * 1024 * 100);
+			p[0] = '1';
+			return;
+		}
+
+		unsafe static private void TestMallocHeap() {
+			Console.WriteLine("Enter any key to start to malloc heap memory");
+			Console.ReadLine();
+			int* p = (int *)UnsafeTest.NewHeap(sizeof(int) * 1024 * 10000);	
+			// watch the memory in debugger
+			Console.WriteLine("Enter any key to start to free heap memory");
+			Console.ReadLine();
+			UnsafeTest.FreeHeap(p);
+			Console.WriteLine("Enter any key to end");
+			Console.ReadLine();
 		}
 	}
 
