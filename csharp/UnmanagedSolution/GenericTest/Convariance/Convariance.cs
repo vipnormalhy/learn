@@ -8,7 +8,7 @@ namespace GenericTest.Convariance {
 		Triangle,
 	}
 
-	abstract public class Shape: ILengthable<Shape>, /* IConvariance<Shape> */ {
+	abstract public class Shape: ILengthable<Shape> /* IConvariance<Shape> */ {
 		public ShapeType Type_ {get; protected set;}
 
 		public int CalculateLength(Shape item) {
