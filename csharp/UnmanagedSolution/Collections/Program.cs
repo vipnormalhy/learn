@@ -6,12 +6,96 @@ using System.Threading.Tasks;
 
 namespace Collections
 {
+	class Vector {
+		public int X_ {get; set;}
+		public int Y_ {get; set;}
+		public int Z_ {get; set;}
+
+		public Vector(int x, int y, int z) {
+			X_ = x;
+			Y_ = y;
+			Z_ = z;
+		}
+
+		public static Vector operator +(Vector first, Vector second) {
+			first.X_ += second.X_;
+			first.Y_ += second.Y_;
+			first.Z_ += second.Z_;
+			return first;
+		}
+
+		public static bool operator ==(Vector first, Vector second) => (first.X_ == second.X_ &&
+				first.Y_ == second.Y_ && first.Z_ == second.Z_);
+
+		public static bool operator !=(Vector first, Vector second) => !(first == second);
+
+		public override bool Equals(object obj) {
+			if (obj == null) {
+				return false;
+			} else {
+				if (obj is Vector) {
+					return this == obj as Vector;
+				} else {
+					return false;
+				}
+			}
+		}
+
+		public override int GetHashCode() {
+			return 1;
+		}
+
+		public int this[string index] {
+			get {
+				switch(index) {
+					case "x":
+						return X_;
+					case "y":
+						return Y_;
+					case "z":
+						return Z_;
+					default:
+						return 0;
+				}
+			}
+			set {
+				switch(index) {
+					case "x":
+						X_ = value;
+						break;
+					case "y":
+						Y_ = value;
+						break;
+					case "z":
+						Z_ = value;
+						break;
+					default:
+						break;
+				}
+			}
+		}
+	}
+
 	class Program {
 		static void Main(string[] args) {
 			ArrayTest();
 			JaggedTest();
 			CreateArray();
 			TestCompare();
+			TestCheck();
+			TestNull();
+			TestOperator();
+		}
+
+		static void TestOperator() {
+			Vector a = new Vector(1, 2, 3);
+			Vector b = new Vector(4, 5, 6);
+
+			a += b;
+			Console.WriteLine($"a is {a.X_}, {a.Y_} {a.Z_}");
+
+			int x = a["x"];
+			Console.WriteLine($"index 'a' is {x}");
 		}
 
 		static void CreateArray() {
@@ -81,6 +165,39 @@ namespace Collections
 			foreach (var i in persons) {
 				Console.WriteLine($"data is {i.name_}");
 			}
+		}
+
+		static void TestCheck() {
+			byte a = 255;
+			checked {
+				unchecked {
+					a++;
+				}
+			}
+
+			Console.WriteLine($"value {nameof(a)} is {a}");
+		}
+		
+		static void TestNull() {
+			int? a = null;
+			int b = 3;
+			int c = a??3 + b;
+			int[] a2 = null;
+
+			c = a2?[0] ?? 3 + 8;
+			Console.WriteLine($"value is {c}");
+
+			if (a + b >= 0) {
+				Console.WriteLine("a + b >= 0");
+			} else if (a + b <= 0) {
+				Console.WriteLine("a + b <= 0");
+			} else {
+				Console.WriteLine("elseeeeeeee");
+			}
+
+			Console.WriteLine($"value is {a}");
+			a = a??10;
+			Console.WriteLine($"value is {a}");
 		}
 	}
 }
