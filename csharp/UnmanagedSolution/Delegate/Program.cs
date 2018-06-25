@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 namespace Delegate
 {
-	class Program
-	{
-		static void Main(string[] args)
-		{
+	class Program {
+		static void Main(string[] args) {
+			DelegateTestFunc();
+		}
+
+		static void DelegateTestFunc() {
+			Delegate.DelegateClass.DelegateTest testobj = new Delegate.DelegateClass.DelegateTest();
+
+			testobj.Test();
 		}
 	}
 }
