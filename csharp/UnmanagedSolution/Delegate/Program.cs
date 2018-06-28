@@ -15,6 +15,11 @@ namespace Delegate
 			Delegate.DelegateClass.DelegateTest testobj = new Delegate.DelegateClass.DelegateTest();
 
 			testobj.Test();
+			testobj.Test2();
+			testobj.TestCluster();
+
+			Delegate.EventTest.CarDeal event_testobj = new Delegate.EventTest.CarDeal();
+			event_testobj.Test();
 		}
 	}
 }
