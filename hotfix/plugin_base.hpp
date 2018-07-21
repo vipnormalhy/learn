@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <dlfcn.h>
 #include <sys/types.h>
+#include <csignal>
 
 struct PluginContext;
 typedef int (*plugin_main_func)(PluginContext &context);
@@ -60,6 +61,23 @@ int run_plugin(PluginContext &context) {
 	auto p = context.pinternal;
 	assert(p->entry);
 	return p->entry(context);
+}
+
+void signal_handler(int sig_num, siginfo_t *info, void *context) {
+	std::cout << "sig num is " << sig_num << std::endl;
+	std::cout << "info sig num value is " << info->si_signo << "pid is " << info->si_pid << std::endl;
+	std::cout << context << std::endl;
+}
+
+void init_signal_handler() {
+	struct sigaction sa;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_restorer = NULL;
+	sa.sa_sigaction = signal_handler;
+
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGILL, &sa, NULL);
 }
 
 #endif
