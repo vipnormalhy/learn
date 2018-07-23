@@ -13,6 +13,7 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <elf.h>
+#include <stdlib.h>
 
 struct PluginContext;
 typedef int (*plugin_main_func)(PluginContext &context);
@@ -100,11 +101,35 @@ size_t file_size(const std::string &filepath) {
 	}
 }
 
+void parse_elf_header(char *pdata) {
+	assert(pdata);
+	Elf64_Ehdr *p_ehdr = (Elf64_Ehdr *)pdata;
+	if (p_ehdr->e_ident[EI_MAG0] != ELFMAG0 ||
+			p_ehdr->e_ident[EI_MAG1] != ELFMAG1 || 
+			p_ehdr->e_ident[EI_MAG2] != ELFMAG2 ||
+			p_ehdr->e_ident[EI_MAG3] != ELFMAG3) {
+		return;
+	}
+
+	// do not deal with 32bit library
+	if (p_ehdr->e_ident[EI_CLASS] == ELFCLASS32) {
+		return;
+	}
+
+	Elf64_Shdr *p_shdr = (Elf64_Shdr *)(pdata + p_ehdr->e_shoff);
+	auto sh_strtab = &p_shdr[p_ehdr->e_shstrndx];
+	const char *const sh_strtable_p = (char *)pdata + sh_strtab->sh_offset;
+
+	for (int i = 0; i < p_ehdr->e_shnum; i++) {
+		printf("section name is %s\n", (char *)(sh_strtable_p + p_shdr[i].sh_name));
+	}
+}
+
 void parse_plugin(const std::string &filepath) {
 	FILE *fp = fopen(filepath.c_str(), "rb");
 	size_t filesize = file_size(filepath);
 
-	void *p = malloc(filesize);
+	char *p = (char *)malloc(filesize);
 	size_t readsize = fread(p, 1, filesize, fp);
 	fclose(fp);
 	fp = NULL;
@@ -114,6 +139,9 @@ void parse_plugin(const std::string &filepath) {
 		return;
 	}
 
+	// parse elf header
+	parse_elf_header(p);
+	free(p);
 }
 
 #endif
