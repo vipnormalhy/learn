@@ -10,9 +10,13 @@
 #include <csignal>
 #include <thread>
 #include <chrono>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <elf.h>
 
 struct PluginContext;
 typedef int (*plugin_main_func)(PluginContext &context);
+void parse_plugin(const std::string &filepath);
 
 struct PluginInternal {
 	void *pso = nullptr;
@@ -33,6 +37,7 @@ bool set_plugin_info(PluginContext &context, const std::string &pathname) {
 	internal->pathname = pathname.c_str();
 	context.pinternal = internal;
 	context.version = 0;
+	parse_plugin(pathname);
 	return true;
 }
 
@@ -83,6 +88,32 @@ void init_signal_handler() {
 
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGILL, &sa, NULL);
+}
+
+size_t file_size(const std::string &filepath) {
+	struct stat stats;
+
+	if (!stat(filepath.c_str(), &stats)) {
+		return stats.st_size;
+	} else {
+		return 0;
+	}
+}
+
+void parse_plugin(const std::string &filepath) {
+	FILE *fp = fopen(filepath.c_str(), "rb");
+	size_t filesize = file_size(filepath);
+
+	void *p = malloc(filesize);
+	size_t readsize = fread(p, 1, filesize, fp);
+	fclose(fp);
+	fp = NULL;
+
+	if (readsize != filesize) {
+		std::cout << "Read file failed.Filesize not fit" << readsize << " " << filesize << std::endl;
+		return;
+	}
+
 }
 
 #endif
