@@ -8,6 +8,7 @@
 #include <dlfcn.h>
 #include <sys/types.h>
 #include <csignal>
+#include <link.h>
 
 struct PluginContext;
 typedef int (*plugin_main_func)(PluginContext &context);
@@ -78,6 +79,18 @@ void init_signal_handler() {
 
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGILL, &sa, NULL);
+}
+
+int iterator_shared_objects(struct dl_phdr_info *info, size_t size, void *data) {
+	std::cout << "shared object name is " << info->dlpi_name << std::endl;
+	std::cout << "shared object size is " << size << std::endl;
+	printf("shared object data location is %p\n", data);
+	return 0;
+}
+
+void get_all_shared_objects() {
+	void *data = NULL;
+	dl_iterate_phdr(iterator_shared_objects, data);
 }
 
 #endif

@@ -17,6 +17,7 @@ int main() {
 		set_plugin_info(context, filepath);
 		load_plugin(context);
 		run_plugin(context);
+		get_all_shared_objects();
 		unload_plugin(context);
 
 		std::this_thread::sleep_for(std::chrono::seconds(5));
