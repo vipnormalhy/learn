@@ -5,7 +5,11 @@
 #include "test_data.h"
 
 int main() {
+#if defined(__gnu_linux__)
 	std::string filepath("./libplugin_test_so.so");
+#else
+	std::string filepath("./libplugin_test_so.dylib");
+#endif
 	PluginContext context;
 	TestData data;
 	data.test_str = "Hello, world";
