@@ -76,7 +76,7 @@ void signal_handler(int sig_num, siginfo_t *info, void *context) {
 	std::cout << "sig num is " << sig_num << std::endl;
 	std::cout << "info sig num value is " << info->si_signo << "pid is " << info->si_pid << std::endl;
 	std::cout << context << std::endl;
-	std::this_thread::sleep_for(std::chrono::(10));
+	std::this_thread::sleep_for(std::chrono::seconds(10));
 }
 
 void init_signal_handler() {
