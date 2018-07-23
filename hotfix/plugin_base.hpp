@@ -8,6 +8,8 @@
 #include <dlfcn.h>
 #include <sys/types.h>
 #include <csignal>
+#include <thread>
+#include <chrono>
 
 struct PluginContext;
 typedef int (*plugin_main_func)(PluginContext &context);
@@ -67,13 +69,16 @@ void signal_handler(int sig_num, siginfo_t *info, void *context) {
 	std::cout << "sig num is " << sig_num << std::endl;
 	std::cout << "info sig num value is " << info->si_signo << "pid is " << info->si_pid << std::endl;
 	std::cout << context << std::endl;
+	std::this_thread::sleep_for(std::chrono::seconds(10));
 }
 
 void init_signal_handler() {
 	struct sigaction sa;
-	sa.sa_flags = SA_SIGINFO;
+	sa.sa_flags = SA_SIGINFO | SA_RESETHAND;
 	sigemptyset(&sa.sa_mask);
+#if defined(__gnu_linux__)
 	sa.sa_restorer = NULL;
+#endif
 	sa.sa_sigaction = signal_handler;
 
 	sigaction(SIGINT, &sa, NULL);
