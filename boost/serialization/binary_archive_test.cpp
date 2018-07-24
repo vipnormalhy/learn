@@ -10,14 +10,33 @@
 class CEntity {
 	private:
 		friend boost::serialization::access;
+		// template<typename Archive>
+		// void serialize(Archive &ar, const unsigned int version) {
+		// 	ar & hp;
+		// 	ar & mp;
+		// }
 		template<typename Archive>
-		void serialize(Archive &ar, const unsigned int version) {
-			ar & hp;
-			ar & mp;
+		void save(Archive &ar, const unsigned int version) const {
+			if (version >= 1) {
+				ar << sp;
+			}
+
+			ar << hp;
+			ar << mp;
 		}
+		template<typename Archive>
+		void load(Archive &ar, const unsigned int version) {
+			if (version >= 1) {
+				ar >> sp;
+			}
+			ar >> hp;
+			ar >> mp;
+		}
+		BOOST_SERIALIZATION_SPLIT_MEMBER();
 
 		unsigned int hp = 0;
 		unsigned int mp = 0;
+		unsigned int sp = 0;
 	public:
 		inline void mod_hp(int value) {hp += value;}
 		inline void mod_mp(int value) {mp += value;}
@@ -25,7 +44,7 @@ class CEntity {
 		inline unsigned int get_mp() {return mp;}
 };
 
-BOOST_CLASS_VERSION(CEntity, 0);
+BOOST_CLASS_VERSION(CEntity, 1);
 
 std::ostringstream &pack_binary_archive(CEntity &entity, std::ostringstream &oss) {
 	boost::archive::binary_oarchive oa(oss);
