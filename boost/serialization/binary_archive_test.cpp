@@ -6,6 +6,7 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
+#include <boost/serialization/base_object.hpp>
 
 class CEntity {
 	private:
@@ -44,7 +45,34 @@ class CEntity {
 		inline unsigned int get_mp() {return mp;}
 };
 
+class CPlayer: public CEntity {
+	private:
+		friend boost::serialization::access;
+		std::string name;
+		template<typename Archive>
+		void save(Archive &ar, const unsigned int version) const {
+			if (version > 0) {
+				return;
+			}
+			ar << boost::serialization::base_object<CEntity>(*this);
+			ar << name;
+		}
+		template<typename Archive>
+		void load(Archive &ar, const unsigned int version) const {
+			if (version > 0) {
+				return;
+			}
+			ar >> boost::serialization::base_object<CEntity>(*this);
+			ar >> name;
+		}
+
+		BOOST_SERIALIZATION_SPLIT_MEMBER();
+	public:
+		inline std::string &get_name() {return name;}
+};
+
 BOOST_CLASS_VERSION(CEntity, 1);
+BOOST_CLASS_VERSION(CPlayer, 0);
 
 std::ostringstream &pack_binary_archive(CEntity &entity, std::ostringstream &oss) {
 	boost::archive::binary_oarchive oa(oss);
