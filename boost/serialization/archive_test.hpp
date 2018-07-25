@@ -111,11 +111,26 @@ class CEntityQueue {
 
 			ar & head;
 			ar & end;
+			ar & middle;
 			std::cout << "enter CEntityQueue serialize" << std::endl;
 		}
 		CEntity head;
 		CEntity end;
+		CEntity *middle;
 	public:
 		inline CEntity &get_head() {return head;}
 		inline CEntity &get_end() {return end;}
+		inline CEntity *get_middle() {return middle;}
+		CEntityQueue();
+		virtual ~CEntityQueue();
 };
+
+CEntityQueue::CEntityQueue() {
+	middle = new CEntity;
+}
+
+CEntityQueue::~CEntityQueue() {
+	if (middle) {
+		delete middle;
+	}
+}

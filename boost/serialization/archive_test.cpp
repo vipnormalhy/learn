@@ -25,9 +25,15 @@ void test_member_archive() {
 	CEntity &entity2 = entity_queue.get_end();
 	entity2.mod_hp(1000);
 	entity2.mod_mp(30);
+	CEntity *pentity = entity_queue.get_middle();
+	if (pentity) {
+		pentity->mod_hp(3576);
+		pentity->mod_mp(876);
+	}
 
 	std::cout << "head hp is " << entity_queue.get_head().get_hp() << "head mp is " << entity_queue.get_head().get_mp() << std::endl;
 	std::cout << "head hp is " << entity_queue.get_end().get_hp() << "head mp is " << entity_queue.get_end().get_mp() << std::endl;
+	std::cout << "head hp is " << entity_queue.get_middle()->get_hp() << "head mp is " << entity_queue.get_middle()->get_mp() << std::endl;
 
 	std::stringstream ss;
 	boost::archive::binary_oarchive oa(ss);
@@ -38,6 +44,7 @@ void test_member_archive() {
 	ia >> entity_queue2;
 	std::cout << "head hp is " << entity_queue2.get_head().get_hp() << "head mp is " << entity_queue2.get_head().get_mp() << std::endl;
 	std::cout << "head hp is " << entity_queue2.get_end().get_hp() << "head mp is " << entity_queue2.get_end().get_mp() << std::endl;
+	std::cout << "head hp is " << entity_queue.get_middle()->get_hp() << "head mp is " << entity_queue.get_middle()->get_mp() << std::endl;
 }
 
 int main() {
