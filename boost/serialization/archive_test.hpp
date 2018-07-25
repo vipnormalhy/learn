@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <stdlib.h>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
@@ -30,6 +31,7 @@ void CEntity::save(Archive &ar, const unsigned int version) const {
 	}
 	ar << hp;
 	ar << mp;
+	std::cout << "Enter CEntity save" << std::endl;
 }
 
 template<typename Archive>
@@ -42,6 +44,7 @@ void CEntity::load(Archive &ar, const unsigned int version) {
 	ar >> hp;
 	ar >> mp;
 	ar >> sp;
+	std::cout << "Enter CEntity load" << std::endl;
 }
 
 bool check_value(int value, unsigned int base) {
@@ -61,6 +64,24 @@ bool check_value(int value, unsigned int base) {
 	}
 }
 
+int is_mul_overflow(int a, int b) {
+	if (a == 0 && b == 0) {
+		return false;
+	}
+	if (a > 0 && b > 0) {
+		return INT_MAX / a < b;
+	}
+	else if( a < 0 && b < 0 ) {
+		return INT_MAX / a > b;
+	}
+	else if( a * b == INT_MIN ) {
+		return 0;
+	}
+	else {
+		return a < 0 ? is_mul_overflow(-a, b) : is_mul_overflow(a, -b);
+	}
+}
+
 bool CEntity::mod_hp(int value) {
 	if (!check_value(value, hp)) {
 		return false;
@@ -77,3 +98,23 @@ bool CEntity::mod_mp(int value) {
 	mp += value;
 	return true;
 }
+
+class CEntityQueue {
+	private:
+		friend boost::serialization::access;
+		template <typename Archive>
+		void serialize(Archive &ar, const unsigned int version) {
+			if (int(version) < 0) {
+				return;
+			}
+
+			ar & head;
+			ar & end;
+			std::cout << "enter CEntityQueue serialize" << std::endl;
+		}
+		CEntity head;
+		CEntity end;
+	public:
+		inline CEntity &get_head() {return head;}
+		inline CEntity &get_end() {return end;}
+};

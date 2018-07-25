@@ -17,7 +17,28 @@ void test_archive() {
 	std::cout << "hp is " << backupentity.get_hp() << ",mp is " << backupentity.get_mp() << std::endl;
 }
 
+void test_member_archive() {
+	CEntityQueue entity_queue;
+	CEntity entity = entity_queue.get_head();
+	entity.mod_hp(100);
+	entity.mod_mp(50);
+	entity = entity_queue.get_end();
+	entity.mod_hp(1000);
+	entity.mod_mp(30);
+
+	std::stringstream ss;
+	boost::archive::binary_oarchive oa(ss);
+	oa << entity_queue;
+
+	CEntityQueue entity_queue2;
+	boost::archive::binary_iarchive ia(ss);
+	ia >> entity_queue2;
+	std::cout << "head hp is " << entity_queue.get_head().get_hp() << "head mp is " << entity_queue.get_head().get_hp() << std::endl;
+	std::cout << "head hp is " << entity_queue.get_end().get_hp() << "head mp is " << entity_queue.get_end().get_hp() << std::endl;
+}
+
 int main() {
 	test_archive();
+	test_member_archive();
 	return 0;
 }
