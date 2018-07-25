@@ -116,6 +116,6 @@ class CEntityQueue {
 		CEntity head;
 		CEntity end;
 	public:
-		inline CEntity *get_head() {return &head;}
-		inline CEntity *get_end() {return &end;}
+		inline CEntity &get_head() {return head;}
+		inline CEntity &get_end() {return end;}
 };
