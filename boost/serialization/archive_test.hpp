@@ -1,7 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include <sstream>
+#include <stdlib.h>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 
@@ -43,4 +42,38 @@ void CEntity::load(Archive &ar, const unsigned int version) {
 	ar >> hp;
 	ar >> mp;
 	ar >> sp;
+}
+
+bool check_value(int value, unsigned int base) {
+	if (value >= 0) {
+		if (UINT_MAX - base < static_cast<unsigned int>(value)) {
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		unsigned int abs_value = abs(value);
+		if (abs_value > base) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+}
+
+bool CEntity::mod_hp(int value) {
+	if (!check_value(value, hp)) {
+		return false;
+	}
+		
+	hp += value;
+	return true;
+}
+
+bool CEntity::mod_mp(int value) {
+	if (!check_value(value, mp)) {
+		return false;
+	}
+	mp += value;
+	return true;
 }
