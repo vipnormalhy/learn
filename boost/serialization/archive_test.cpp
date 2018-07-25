@@ -40,8 +40,28 @@ void test_member_archive() {
 	std::cout << "head hp is " << entity_queue2.get_end().get_hp() << "head mp is " << entity_queue2.get_end().get_mp() << std::endl;
 }
 
+void test_derived_archive() {
+	CMonster monster;
+	monster.mod_hp(10000);
+	monster.mod_mp(500);
+	std::string name("test");
+	monster.set_name(name);
+
+	std::stringstream ss;
+	boost::archive::binary_oarchive oa(ss);
+	oa << monster;
+
+	CMonster monster2;
+	boost::archive::binary_iarchive ia(ss);
+	ia >> monster2;
+
+	std::cout << "hp is " << monster2.get_hp() << " mp is " << monster2.get_mp() << std::endl;
+	std::cout << "name is " << monster2.get_name() << std::endl;
+}
+
 int main() {
 	test_archive();
 	test_member_archive();
+	test_derived_archive();
 	return 0;
 }

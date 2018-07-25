@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/base_object.hpp>
 
 class CEntity {
 	private:
@@ -118,4 +119,22 @@ class CEntityQueue {
 	public:
 		inline CEntity &get_head() {return head;}
 		inline CEntity &get_end() {return end;}
+};
+
+class CMonster: public CEntity {
+	private:
+		friend boost::serialization::access;
+		template <typename Archive>
+		void serialize(Archive &ar, unsigned int version) {
+			ar & boost::serialization::base_object<CEntity>(*this);
+			if (int(version) < 0) {
+				return;
+			}
+
+			ar & name_;
+		}
+		std::string name_;
+	public:
+		void set_name(std::string &name) {name_ = name;}
+		std::string &get_name() {return name_;}
 };
