@@ -31,6 +31,7 @@ void CEntity::save(Archive &ar, const unsigned int version) const {
 	}
 	ar << hp;
 	ar << mp;
+	ar << sp;
 	std::cout << "Enter CEntity save" << std::endl;
 }
 
@@ -115,6 +116,6 @@ class CEntityQueue {
 		CEntity head;
 		CEntity end;
 	public:
-		inline CEntity &get_head() {return head;}
-		inline CEntity &get_end() {return end;}
+		inline CEntity *get_head() {return &head;}
+		inline CEntity *get_end() {return &end;}
 };
