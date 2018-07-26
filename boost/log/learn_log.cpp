@@ -18,6 +18,20 @@ void add_log_sink() {
 	logging::core::get()->add_sink(sink);
 }
 
+void add_detail_sink() {
+	namespace sinks = boost::log::sinks;
+	namespace logging = boost::log;
+
+	// construct sink
+	typedef sinks::synchronous_sink<sinks::text_ostream_backend> text_sink;
+	boost::shared_ptr<sinks::text_ostream_backend> backend = boost::make_shared<sinks::text_ostream_backend>();
+	backend->add_stream(boost::make_shared<std::ofstream>("sample2.log"));
+
+	boost::shared_ptr<text_sink> sink = boost::make_shared<text_sink>(backend);
+	boost::shared_ptr<logging::core> core(logging::core::get());
+	core->add_sink(sink);
+}
+
 void init_logging() {
 	namespace logging = boost::log;
 	namespace keywords = boost::log::keywords;
@@ -33,6 +47,7 @@ void init_logging() {
 int main(int, char *[]) {
 	init_logging();
 	add_log_sink();
+	add_detail_sink();
 
 	namespace boost_trivial = boost::log::trivial;
 	namespace boost_src = boost::log::sources;
