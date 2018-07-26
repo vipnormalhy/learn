@@ -14,7 +14,9 @@ set(SRC_FILE
 	${CMAKE_SOURCE_DIR}/learn_log.cpp)
 
 add_executable(${PROJECT_NAME} ${SRC_FILE})
-target_link_libraries(${PROJECT_NAME} 
-	libboost_log.a libboost_system.a libboost_filesystem.a
-	libboost_thread.a pthread dl
-	boost_stacktrace_backtrace backtrace)
+target_link_libraries(${PROJECT_NAME} dl pthread
+	libboost_log.a boost_log_setup.a
+	libboost_system.a
+	libboost_filesystem.a
+	libboost_thread.a
+	)
