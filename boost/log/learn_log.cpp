@@ -1,7 +1,22 @@
+#include <boost/shared_ptr.hpp>
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/log/expressions.hpp>
 #include <boost/log/utility/setup.hpp>
+#include <boost/log/sinks.hpp>
+#include <fstream>
+// #include <boost/log/attributes.hpp>
+
+void add_log_sink() {
+	namespace sinks = boost::log::sinks;
+	namespace logging = boost::log;
+	// construct sink
+	typedef sinks::synchronous_sink<sinks::text_ostream_backend> text_sink;
+	boost::shared_ptr<text_sink> sink = boost::make_shared<text_sink>();
+
+	sink->locked_backend()->add_stream(boost::make_shared<std::ofstream>("sample.log"));
+	logging::core::get()->add_sink(sink);
+}
 
 void init_logging() {
 	namespace logging = boost::log;
@@ -17,6 +32,7 @@ void init_logging() {
 
 int main(int, char *[]) {
 	init_logging();
+	add_log_sink();
 
 	namespace boost_trivial = boost::log::trivial;
 	namespace boost_src = boost::log::sources;
