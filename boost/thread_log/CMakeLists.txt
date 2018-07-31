@@ -11,10 +11,14 @@ include_directories("~normalhy/software/include")
 link_directories("~normalhy/software/lib")
 
 set(SRC_FILE
-	${CMAKE_SOURCE_DIR}/learn_thread_log.cpp)
+	${CMAKE_SOURCE_DIR}/learn_thread_log.cpp
+	${CMAKE_SOURCE_DIR}/log_manager.cpp
+	)
 
 add_executable(${PROJECT_NAME} ${SRC_FILE})
 target_link_libraries(${PROJECT_NAME} dl pthread
+	libboost_log.a
+	libboost_log_setup.a
 	libboost_system.a
 	libboost_chrono.a
 	libboost_thread.a)
