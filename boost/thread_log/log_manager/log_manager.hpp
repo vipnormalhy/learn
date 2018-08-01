@@ -8,13 +8,21 @@
 #include <boost/log/utility/setup.hpp>
 #include <boost/log/expressions.hpp>
 
+
 class CLogManager {
+	typedef boost::log::sources::severity_logger_mt<boost::log::trivial::severity_level> LOGGER_MT_TYPE;
+	typedef boost::log::sources::severity_logger<boost::log::trivial::severity_level> LOGGER_TYPE;
+
 	private:
-		std::string filename_;
+		const std::string filename_;
+		LOGGER_MT_TYPE logger_mt_;
+		LOGGER_TYPE logger_;
+
 		void init_logging();
 	public:
 		CLogManager(const std::string &filename) noexcept;
 		CLogManager(const char *filename) noexcept;
-		void debug(const char *message);
-		void debug(const char *format, const char *msg);
+
+		inline LOGGER_TYPE get_logger() const noexcept {return logger_;} 
+		inline LOGGER_MT_TYPE get_logger_mt() const noexcept {return logger_mt_;}
 };
