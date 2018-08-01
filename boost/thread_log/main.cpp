@@ -12,10 +12,17 @@ void usage() {
 	std::string filename("ReadMe");
 	boost::filesystem::path filepath(filename.c_str());
 	if (!boost::filesystem::exists(filepath)) {
-		BOOST_LOG_SEV(g_logger, boost::log::trivial::info) << "Not exists!";
-	} else {
-		BOOST_LOG_SEV(g_logger, boost::log::trivial::info) << "exists!";
+		BOOST_LOG_SEV(g_logger, boost::log::trivial::warning) << "Cannot find help files!";
+		return;
 	}
+
+	std::ifstream ifs(filename, std::ios::in);
+	std::string line;
+	while (std::getline(ifs, line)) {
+		std::cout << line << std::endl;
+	}
+	ifs.close();
+	return;
 }
 
 int main(int argc, const char *const *argv) {
