@@ -4,6 +4,7 @@
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
 #include "consts.hpp"
+#include "common.h"
 
 namespace po = boost::program_options;
 
@@ -11,11 +12,13 @@ void usage() {
 	std::string filename("ReadMe");
 	boost::filesystem::path filepath(filename.c_str());
 	if (!boost::filesystem::exists(filepath)) {
+		BOOST_LOG_SEV(g_logger, boost::log::trivial::info) << "Not exists!";
+	} else {
+		BOOST_LOG_SEV(g_logger, boost::log::trivial::info) << "exists!";
 	}
 }
 
 int main(int argc, const char *const *argv) {
-	
 	// Parse command options
 	po::options_description options_desc("Allowed Options");
 	options_desc.add_options()
@@ -25,7 +28,7 @@ int main(int argc, const char *const *argv) {
 	po::store(po::parse_command_line(argc, argv, options_desc), vm);
 	po::notify(vm);
 
-	if (vm.count("help")) {
+	if (argc <= 1 || vm.count("help")) {
 		usage();
 		return OK;
 	}
