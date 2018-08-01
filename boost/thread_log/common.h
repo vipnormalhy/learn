@@ -2,10 +2,11 @@
 #ifndef LEARN_THREADS_LOG_COMMON_H
 #define LEARN_THREADS_LOG_COMMON_H
 
-#include <boost/log/trivial.hpp>
+#include "log_manager/log_manager.hpp"
 
 // global logger
-boost::log::sources::severity_logger_mt<boost::log::trivial::severity_level> g_logger_mt;
-boost::log::sources::severity_logger<boost::log::trivial::severity_level> g_logger;
+CLogManager g_logger_manager("common");
+CLogManager::LOGGER_TYPE g_logger = g_logger_manager.get_logger();
+CLogManager::LOGGER_MT_TYPE g_logger_mt = g_logger_manager.get_logger_mt();
 
 #endif

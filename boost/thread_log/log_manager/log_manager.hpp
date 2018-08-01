@@ -7,11 +7,13 @@
 #include <boost/log/core.hpp>
 #include <boost/log/utility/setup.hpp>
 #include <boost/log/expressions.hpp>
+#include <boost/log/support/date_time.hpp>
 
 
 class CLogManager {
-	typedef boost::log::sources::severity_logger_mt<boost::log::trivial::severity_level> LOGGER_MT_TYPE;
-	typedef boost::log::sources::severity_logger<boost::log::trivial::severity_level> LOGGER_TYPE;
+	public:
+		typedef boost::log::sources::severity_logger_mt<boost::log::trivial::severity_level> LOGGER_MT_TYPE;
+		typedef boost::log::sources::severity_logger<boost::log::trivial::severity_level> LOGGER_TYPE;
 
 	private:
 		const std::string filename_;
@@ -20,6 +22,7 @@ class CLogManager {
 
 		void init_logging();
 	public:
+
 		CLogManager(const std::string &filename) noexcept;
 		CLogManager(const char *filename) noexcept;
 

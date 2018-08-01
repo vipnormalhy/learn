@@ -9,6 +9,7 @@ namespace expression = boost::log::expressions;
 namespace attr = boost::log::attributes;
 namespace sinks = boost::log::sinks;
 
+
 CLogManager::CLogManager(const std::string &filename) noexcept:
 	filename_(filename) {
 	init_logging();
@@ -40,6 +41,19 @@ void CLogManager::init_logging() {
 
 	typedef sinks::synchronous_sink<sinks::text_multifile_backend> SINK_TYPE;
 	boost::shared_ptr<SINK_TYPE> sink = boost::make_shared<SINK_TYPE>(backend);
+
+	// logger format
+	sink->set_formatter(
+			// log format [TimeStamp] [ProcessID] [ThreadID] [Severity] [LineID] message
+			expression::format("[%1%] [%2%] [%3%] [%4%] [line=%5%] %6%")
+			% expression::format_date_time<boost::posix_time::ptime>("TimeStamp", "%Y-%m-%d %H:%M:%S.%f")
+			% expression::attr<attr::current_process_id::value_type>("ProcessID")
+			% expression::attr<attr::current_thread_id::value_type>("ThreadID")
+			% expression::attr<boost::log::trivial::severity_level>("Severity")
+			% expression::attr<unsigned int>("LineID")
+			% expression::message);
+
+
 
 	logging::core::get()->add_sink(sink);
 }
