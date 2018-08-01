@@ -12,7 +12,7 @@ link_directories("~normalhy/software/lib")
 
 set(SRC_FILE
 	${CMAKE_SOURCE_DIR}/log_manager/log_manager.cpp
-
+	${CMAKE_SOURCE_DIR}/global_data.cpp
 	${CMAKE_SOURCE_DIR}/main.cpp)
 
 add_executable(${PROJECT_NAME} ${SRC_FILE})

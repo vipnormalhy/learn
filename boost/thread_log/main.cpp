@@ -29,6 +29,8 @@ int main(int argc, const char *const *argv) {
 	// Parse command options
 	po::options_description options_desc("Allowed Options");
 	options_desc.add_options()
+		("listen_ip", po::value<std::string>()->default_value(""), "if starts like a server,need a listen ip and port")
+		("listen_port", po::value<unsigned short>()->default_value(0), "if starts like a server,need a listen port and ip")
 		("help", "produce help message");
 
 	po::variables_map vm;
@@ -38,6 +40,11 @@ int main(int argc, const char *const *argv) {
 	if (argc <= 1 || vm.count("help")) {
 		usage();
 		return OK;
+	}
+
+	if (vm.count("listen_ip")) {
+		// if (check_ip(vm["listen_ip"].as<std::string>())) {
+		// }
 	}
 
 	return OK;
