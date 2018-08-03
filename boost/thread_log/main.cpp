@@ -3,6 +3,7 @@
 #include <string>
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/asio.hpp>
 #include "consts.hpp"
 #include "common.h"
 
@@ -25,13 +26,20 @@ void usage() {
 	return;
 }
 
-bool check_ip(std::string ip) {
+bool check_ip(const std::string ip) {
 	if (ip.size() <= 0) {
 		return false;
 	}
 
-
-	return false;
+	boost::system::error_code ec;
+	boost::asio::ip::address ip_add(boost::asio::ip::make_address(ip, ec));
+	if (ec) {
+		BOOST_LOG_SEV(g_logger, boost::log::trivial::warning) << "listen ip error! " << ec.message();
+		return false;
+	} else {
+		BOOST_LOG_SEV(g_logger, boost::log::trivial::info) << "Try to bind ip " << ip_add.to_string();
+	}
+	return true;
 }
 
 int main(int argc, const char *const *argv) {
@@ -48,11 +56,13 @@ int main(int argc, const char *const *argv) {
 
 	if (argc <= 1 || vm.count("help")) {
 		usage();
+		std::cout << options_desc << std::endl;
 		return OK;
 	}
 
 	if (vm.count("listen_ip")) {
-		if (check_ip(vm["listen_ip"].as<std::string>())) {
+		if (!check_ip(vm["listen_ip"].as<std::string>())) {
+			return -1;
 		}
 	}
 
