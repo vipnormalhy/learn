@@ -5,7 +5,7 @@
 
 #include <string>
 
-class CConfigure {
+class CConfiguration {
 	private:
 		std::string listen_ip_;
 		unsigned short listen_port_;

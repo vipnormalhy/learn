@@ -16,7 +16,6 @@ include_directories("~/software/include")
 
 set(SRC_FILE
 	${CMAKE_SOURCE_DIR}/log_manager/log_manager.cpp
-	${CMAKE_SOURCE_DIR}/global_data.cpp
 	${CMAKE_SOURCE_DIR}/main.cpp)
 
 find_library(BOOST_LOG_LIB

@@ -45,7 +45,7 @@ void CLogManager::init_logging() {
 	// logger format
 	sink->set_formatter(
 			// log format [TimeStamp] [ProcessID] [ThreadID] [Severity] [LineID] message
-			expression::format("[%1%] [%2%] [%3%] [%4%] [line=%5%] %6%")
+			expression::format("[%1%] [%2%] [%3%] [%4%] [%5%] %6%")
 			% expression::format_date_time<boost::posix_time::ptime>("TimeStamp", "%Y-%m-%d %H:%M:%S.%f")
 			% expression::attr<attr::current_process_id::value_type>("ProcessID")
 			% expression::attr<attr::current_thread_id::value_type>("ThreadID")

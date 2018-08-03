@@ -25,6 +25,15 @@ void usage() {
 	return;
 }
 
+bool check_ip(std::string ip) {
+	if (ip.size() <= 0) {
+		return false;
+	}
+
+
+	return false;
+}
+
 int main(int argc, const char *const *argv) {
 	// Parse command options
 	po::options_description options_desc("Allowed Options");
@@ -43,8 +52,8 @@ int main(int argc, const char *const *argv) {
 	}
 
 	if (vm.count("listen_ip")) {
-		// if (check_ip(vm["listen_ip"].as<std::string>())) {
-		// }
+		if (check_ip(vm["listen_ip"].as<std::string>())) {
+		}
 	}
 
 	return OK;
