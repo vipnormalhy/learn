@@ -3,24 +3,50 @@ cmake_minimum_required(VERSION 3.7)
 project(learn_thread_log)
 
 set(CMAKE_CXX_STANDARD 11)	
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if (APPLE)
+	set(CMAKE_CXX_EXTENSIONS OFF)
+endif (APPLE)
 set(CMAKE_CXX_FLAGS "-g -Wall -Werror")
 set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O3")
 
-include_directories("~normalhy/software/include")
-link_directories("~normalhy/software/lib")
+set(BOOST_LIB_DIR "~/software/lib")
+include_directories("~/software/include")
 
 set(SRC_FILE
 	${CMAKE_SOURCE_DIR}/log_manager/log_manager.cpp
 	${CMAKE_SOURCE_DIR}/global_data.cpp
 	${CMAKE_SOURCE_DIR}/main.cpp)
 
+find_library(BOOST_LOG_LIB
+	NAMES libboost_log.a
+	PATHS ${BOOST_LIB_DIR})
+find_library(BOOST_LOG_SETUP_LIB
+	NAMES libboost_log_setup.a
+	PATHS ${BOOST_LIB_DIR})
+find_library(BOOST_SYSTEM_LIB
+	NAMES libboost_system.a
+	PATHS ${BOOST_LIB_DIR})
+find_library(BOOST_FILESYSTEM_LIB
+	NAMES libboost_filesystem.a
+	PATHS ${BOOST_LIB_DIR})
+find_library(BOOST_THREAD_LIB
+	NAMES libboost_thread.a
+	PATHS ${BOOST_LIB_DIR})
+find_library(BOOST_CHRONO_LIB
+	NAMES libboost_thread.a
+	PATHS ${BOOST_LIB_DIR})
+find_library(BOOST_PROGRAM_OPTIONS_LIB
+	NAMES libboost_thread.a
+	PATHS ${BOOST_LIB_DIR})
+
 add_executable(${PROJECT_NAME} ${SRC_FILE})
 target_link_libraries(${PROJECT_NAME} dl pthread
-	libboost_log.a
-	libboost_log_setup.a
-	libboost_system.a
-	libboost_chrono.a
-	libboost_thread.a
-	libboost_program_options.a
-	libboost_filesystem.a)
+	${BOOST_LOG_LIB}
+	${BOOST_LOG_SETUP_LIB}
+	${BOOST_SYSTEM_LIB}
+	${BOOST_CHRONO_LIB}
+	${BOOST_THREAD_LIB}
+	${BOOST_PROGRAM_OPTIONS_LIB}
+	${BOOST_FILESYSTEM_LIB})
