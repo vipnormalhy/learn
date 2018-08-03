@@ -34,10 +34,10 @@ find_library(BOOST_THREAD_LIB
 	NAMES libboost_thread.a
 	PATHS ${BOOST_LIB_DIR})
 find_library(BOOST_CHRONO_LIB
-	NAMES libboost_thread.a
+	NAMES libboost_chrono.a
 	PATHS ${BOOST_LIB_DIR})
 find_library(BOOST_PROGRAM_OPTIONS_LIB
-	NAMES libboost_thread.a
+	NAMES libboost_program_options.a
 	PATHS ${BOOST_LIB_DIR})
 
 add_executable(${PROJECT_NAME} ${SRC_FILE})
