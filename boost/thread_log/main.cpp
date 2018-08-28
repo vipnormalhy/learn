@@ -13,7 +13,7 @@ void usage() {
 	std::string filename("ReadMe");
 	boost::filesystem::path filepath(filename.c_str());
 	if (!boost::filesystem::exists(filepath)) {
-		BOOST_LOG_SEV(g_logger, boost::log::trivial::warning) << "Cannot find help files!";
+		BOOST_LOG_SEV(g_logger, LOG_WARNING) << "Cannot find help files!";
 		return;
 	}
 
@@ -34,10 +34,10 @@ bool check_ip(const std::string ip) {
 	boost::system::error_code ec;
 	boost::asio::ip::address ip_add(boost::asio::ip::make_address(ip, ec));
 	if (ec) {
-		BOOST_LOG_SEV(g_logger, boost::log::trivial::warning) << "listen ip error! " << ec.message();
+		BOOST_LOG_SEV(g_logger, LOG_WARNING) << "listen ip error! " << ec.message();
 		return false;
 	} else {
-		BOOST_LOG_SEV(g_logger, boost::log::trivial::info) << "Try to bind ip " << ip_add.to_string();
+		BOOST_LOG_SEV(g_logger, LOG_INFO) << "Try to bind ip " << ip_add.to_string();
 	}
 	return true;
 }
@@ -46,9 +46,9 @@ int main(int argc, const char *const *argv) {
 	// Parse command options
 	po::options_description options_desc("Allowed Options");
 	options_desc.add_options()
+		("help", "produce help message")
 		("listen_ip", po::value<std::string>()->default_value(""), "if starts like a server,need a listen ip and port")
-		("listen_port", po::value<unsigned short>()->default_value(0), "if starts like a server,need a listen port and ip")
-		("help", "produce help message");
+		("listen_port", po::value<unsigned short>()->default_value(0), "if starts like a server,need a listen port and ip");
 
 	po::variables_map vm;
 	po::store(po::parse_command_line(argc, argv, options_desc), vm);
