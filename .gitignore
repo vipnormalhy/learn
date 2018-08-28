@@ -6,3 +6,4 @@ obj
 *.exe
 *.csproj.user
 build
+compile_commands.json
