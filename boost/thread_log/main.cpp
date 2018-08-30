@@ -32,14 +32,24 @@ bool check_ip(const std::string ip) {
 	}
 
 	boost::system::error_code ec;
-	boost::asio::ip::address ip_add(boost::asio::ip::make_address(ip, ec));
+	boost::asio::ip::address ip_addr(boost::asio::ip::make_address(ip, ec));
 	if (ec) {
-		BOOST_LOG_SEV(g_logger, LOG_WARNING) << "listen ip error! " << ec.message();
+		BOOST_LOG_SEV(g_logger, LOG_ERROR) << "listen ip error! " << ec.message();
 		return false;
 	} else {
-		BOOST_LOG_SEV(g_logger, LOG_INFO) << "Try to bind ip " << ip_add.to_string();
+		BOOST_LOG_SEV(g_logger, LOG_INFO) << "Try to bind ip " << ip_addr.to_string();
 	}
 	return true;
+}
+
+int check_port(int listen_port) {
+	if (listen_port < 65535 && listen_port > 1024) {
+		BOOST_LOG_SEV(g_logger, LOG_INFO) << "Try to bind port" << listen_port;
+		return true;
+	} else {
+		BOOST_LOG_SEV(g_logger, LOG_ERROR) << "Try to bind bad port " << listen_port;
+		return false;
+	}
 }
 
 int main(int argc, const char *const *argv) {
@@ -47,8 +57,8 @@ int main(int argc, const char *const *argv) {
 	po::options_description options_desc("Allowed Options");
 	options_desc.add_options()
 		("help", "produce help message")
-		("listen_ip", po::value<std::string>()->default_value(""), "if starts like a server,need a listen ip and port")
-		("listen_port", po::value<unsigned short>()->default_value(0), "if starts like a server,need a listen port and ip");
+		("listen_ip", po::value<std::string>(), "if starts like a server,need a listen ip and port")
+		("listen_port", po::value<int>(), "if starts like a server,need a listen port and ip");
 
 	po::variables_map vm;
 	po::store(po::parse_command_line(argc, argv, options_desc), vm);
@@ -62,6 +72,14 @@ int main(int argc, const char *const *argv) {
 
 	if (vm.count("listen_ip")) {
 		if (!check_ip(vm["listen_ip"].as<std::string>())) {
+			std::cout << "IP ERROR" << std::endl;
+			return -1;
+		}
+	}
+
+	if (vm.count("listen_port")) {
+		if (!check_port(vm["listen_port"].as<int>())) {
+			std::cout << "PORT ERROR" << std::endl;
 			return -1;
 		}
 	}
