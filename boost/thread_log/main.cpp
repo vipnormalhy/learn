@@ -7,6 +7,7 @@
 #include "consts.hpp"
 #include "common.h"
 #include "network/tcp_server.h"
+#include "network/tcp_client.h"
 
 namespace po = boost::program_options;
 
@@ -61,6 +62,7 @@ void start_udp_server() {
 
 int main(int argc, const char *const *argv) {
 	bool is_server = false;
+	bool is_client = false;
 	std::string ip_str;
 	int port;
 	// Parse command options
@@ -68,7 +70,9 @@ int main(int argc, const char *const *argv) {
 	options_desc.add_options()
 		("help", "produce help message")
 		("listen_ip", po::value<std::string>(), "if starts like a server,need a listen ip and port")
-		("listen_port", po::value<int>(), "if starts like a server,need a listen port and ip");
+		("listen_port", po::value<int>(), "if starts like a server,need a listen port and ip")
+		("conn_ip", po::value<std::string>(), "connect server ip")
+		("conn_port", po::value<int>(), "connect server port");
 
 	po::variables_map vm;
 	po::store(po::parse_command_line(argc, argv, options_desc), vm);
@@ -96,20 +100,32 @@ int main(int argc, const char *const *argv) {
 			return -1;
 		}
 
+		if (vm.count("conn_ip")) {
+			is_client = true;
+		}
+
 		if (!is_server) {
 			std::cout << "HAS NO LISTEN IP!" << std::endl;
 		}
 	}
 
-	// start a server
+	// starts a server
+	boost::shared_ptr<CTcpServer> server_ptr = NULL;
 	if (is_server) {
 		boost::asio::ip::address ip_addr = boost::asio::ip::make_address(ip_str);
-		boost::shared_ptr<CTcpServer> server_ptr = boost::make_shared<CTcpServer>(ip_addr, static_cast<unsigned short>(port));
-
+		server_ptr = boost::make_shared<CTcpServer>(ip_addr, static_cast<unsigned short>(port));
 		server_ptr->run();
-
-		common_io_context.run();
 	}
+
+	// starts a client
+	boost::shared_ptr<CTcpClient> client_ptr = NULL;
+	if (is_client) {
+		std::string client_ip_str(vm["conn_ip"].as<std::string>());
+		client_ptr = boost::make_shared<CTcpClient>(client_ip_str, vm["conn_port"].as<int>());
+		client_ptr->connect();
+	}
+
+	common_io_context.run();
 
 	return OK;
 }
