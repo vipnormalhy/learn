@@ -20,7 +20,7 @@ extern CConfiguration g_config();
 #define LOG_WARNING boost::log::trivial::warning
 #define LOG_ERROR boost::log::trivial::error
 #define LOG_FATAL boost::log::trivial::fatal
-extern boost::asio::io_context io_context;
+extern boost::asio::io_context common_io_context;
 
 
 #endif

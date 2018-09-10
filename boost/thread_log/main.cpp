@@ -107,6 +107,8 @@ int main(int argc, const char *const *argv) {
 		boost::shared_ptr<CTcpServer> server_ptr = boost::make_shared<CTcpServer>(ip_addr, static_cast<unsigned short>(port));
 
 		server_ptr->run();
+
+		common_io_context.run();
 	}
 
 	return OK;

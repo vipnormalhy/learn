@@ -8,4 +8,4 @@ CLogManager::LOGGER_MT_TYPE g_logger_mt = g_logger_manager.get_logger_mt();
 // global configuration
 CConfiguration g_config();
 
-boost::asio::io_context io_context;
+boost::asio::io_context common_io_context;

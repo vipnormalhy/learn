@@ -1,6 +1,7 @@
 #pragma once
 
 #include "server.h"
+#include "tcp_connection.h"
 
 class CTcpServer: public CServerBase {
 	private:
@@ -10,4 +11,9 @@ class CTcpServer: public CServerBase {
 		CTcpServer(const boost::asio::ip::address &addr, unsigned short port);
 		virtual bool start_listen();
 		virtual void run();
+
+	private:
+		void start_accept();
+
+		void handle_accept(CTcpConnection::connection_ptr new_connection, boost::system::error_code &err);
 };
