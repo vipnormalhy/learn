@@ -15,15 +15,6 @@ class CServerBase {
 		virtual void run();
 };
 
-class CTcpServer: public CServerBase {
-	private:
-		boost::asio::ip::tcp::endpoint endpoint_;
-	public:
-		CTcpServer(const boost::asio::ip::address &addr, unsigned short port);
-		virtual bool start_listen();
-		virtual void run();
-};
-
 class CUdpServer: public CServerBase {
 	private:
 		boost::asio::ip::udp::endpoint endpoint_;

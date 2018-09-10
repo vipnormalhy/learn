@@ -15,12 +15,15 @@ set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O3")
 
 set(BOOST_LIB_DIR "~/software/lib")
 include_directories("~/software/include")
+include_directories(${CMAKE_SOURCE_DIR})
 
 set(SRC_FILE
 	${CMAKE_SOURCE_DIR}/log_manager/log_manager.cpp
 	${CMAKE_SOURCE_DIR}/main.cpp
+	${CMAKE_SOURCE_DIR}/common.cpp
 
 	${CMAKE_SOURCE_DIR}/network/server.cpp
+	${CMAKE_SOURCE_DIR}/network/tcp_server.cpp
 )
 
 find_library(BOOST_LOG_LIB

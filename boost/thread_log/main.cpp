@@ -6,7 +6,7 @@
 #include <boost/asio.hpp>
 #include "consts.hpp"
 #include "common.h"
-#include "network/server.h"
+#include "network/tcp_server.h"
 
 namespace po = boost::program_options;
 
@@ -51,6 +51,12 @@ int check_port(int listen_port) {
 		BOOST_LOG_SEV(g_logger, LOG_ERROR) << "Try to bind bad port " << listen_port;
 		return false;
 	}
+}
+
+void start_tcp_server() {
+}
+
+void start_udp_server() {
 }
 
 int main(int argc, const char *const *argv) {
