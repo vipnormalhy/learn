@@ -35,6 +35,27 @@ bool CServerBase::check_address() {
 	}
 }
 
+void CServerBase::run() {
+}
+
+CTcpServer::CTcpServer(const boost::asio::ip::address &addr, unsigned short port):
+	CServerBase(addr, port) {
+	}
+
 bool CTcpServer::start_listen() {
 	return true;
+}
+
+void CTcpServer::run() {
+}
+
+CUdpServer::CUdpServer(const boost::asio::ip::address &addr, unsigned short port):
+	CServerBase(addr, port) {
+	}
+
+bool CUdpServer::start_listen() {
+	return true;
+}
+
+void CUdpServer::run() {
 }

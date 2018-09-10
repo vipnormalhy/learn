@@ -6,6 +6,7 @@
 #include <boost/asio.hpp>
 #include "consts.hpp"
 #include "common.h"
+#include "network/server.h"
 
 namespace po = boost::program_options;
 
@@ -26,7 +27,7 @@ void usage() {
 	return;
 }
 
-bool check_ip(const std::string ip) {
+bool check_ip(const std::string &ip) {
 	if (ip.size() <= 0) {
 		return false;
 	}
@@ -53,6 +54,9 @@ int check_port(int listen_port) {
 }
 
 int main(int argc, const char *const *argv) {
+	bool is_server = false;
+	std::string ip_str;
+	int port;
 	// Parse command options
 	po::options_description options_desc("Allowed Options");
 	options_desc.add_options()
@@ -71,17 +75,32 @@ int main(int argc, const char *const *argv) {
 	}
 
 	if (vm.count("listen_ip")) {
-		if (!check_ip(vm["listen_ip"].as<std::string>())) {
+		ip_str = vm["listen_ip"].as<std::string>();
+		if (!check_ip(ip_str)) {
 			std::cout << "IP ERROR" << std::endl;
 			return -1;
 		}
+		is_server = true;
 	}
 
 	if (vm.count("listen_port")) {
-		if (!check_port(vm["listen_port"].as<int>())) {
+		port = vm["listen_port"].as<int>();
+		if (!check_port(port)) {
 			std::cout << "PORT ERROR" << std::endl;
 			return -1;
 		}
+
+		if (!is_server) {
+			std::cout << "HAS NO LISTEN IP!" << std::endl;
+		}
+	}
+
+	// start a server
+	if (is_server) {
+		boost::asio::ip::address ip_addr = boost::asio::ip::make_address(ip_str);
+		boost::shared_ptr<CTcpServer> server_ptr = boost::make_shared<CTcpServer>(ip_addr, static_cast<unsigned short>(port));
+
+		server_ptr->run();
 	}
 
 	return OK;
