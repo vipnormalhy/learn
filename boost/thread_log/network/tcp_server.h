@@ -15,5 +15,5 @@ class CTcpServer: public CServerBase {
 	private:
 		void start_accept();
 
-		void handle_accept(CTcpConnection::connection_ptr new_connection, boost::system::error_code &err);
+		void handle_accept(CTcpConnection::connection_ptr new_connection, const boost::system::error_code &err);
 };

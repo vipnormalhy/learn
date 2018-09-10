@@ -28,7 +28,7 @@ void CTcpServer::start_accept() {
 			boost::bind(&CTcpServer::handle_accept, this, new_connection, boost::asio::placeholders::error));
 }
 
-void CTcpServer::handle_accept(CTcpConnection::connection_ptr new_connection, boost::system::error_code &err) {
+void CTcpServer::handle_accept(CTcpConnection::connection_ptr new_connection, const boost::system::error_code &err) {
 	if (!err) {
 		BOOST_LOG_SEV(g_logger, LOG_INFO) << "new connection!";
 		start_accept();
