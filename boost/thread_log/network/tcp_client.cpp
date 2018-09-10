@@ -33,7 +33,22 @@ void CTcpClient::connect() {
 	boost::asio::ip::tcp::resolver::iterator resolver_iter = resolver.resolve(query_endpoints);
 	boost::asio::ip::tcp::resolver::iterator iter_end;
 
+	bool succeed = false;
 	for (;resolver_iter != iter_end; resolver_iter++) {
-		std::cout << "resolver info" << resolver_iter->endpoint() << std::endl;
+		boost::system::error_code err;
+
+		boost::asio::connect(socket_, resolver_iter, err);
+
+		if (!err) {
+			succeed = true;
+			BOOST_LOG_SEV(g_logger, LOG_INFO) << "Client connect to " << resolver_iter->endpoint() << " Succeed!";
+			break;
+		} else {
+			BOOST_LOG_SEV(g_logger, LOG_INFO) << "Client connect to " << resolver_iter->endpoint() << " Failed!";
+		}
+	}
+
+	if (!succeed) {
+		BOOST_LOG_SEV(g_logger, LOG_ERROR) << "Client connect to " << ip_addr_ << "FAILED!";
 	}
 }
