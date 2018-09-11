@@ -34,3 +34,7 @@ void CTcpServer::handle_accept(CTcpConnection::connection_ptr new_connection, co
 		start_accept();
 	}
 }
+
+CTcpServer::~CTcpServer() {
+	CServerBase::~CServerBase();
+}

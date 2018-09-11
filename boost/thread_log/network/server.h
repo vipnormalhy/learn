@@ -13,6 +13,7 @@ class CServerBase {
 		CServerBase(const boost::asio::ip::address &addr, unsigned short port);
 		virtual bool start_listen();
 		virtual void run();
+		virtual ~CServerBase();
 };
 
 class CUdpServer: public CServerBase {

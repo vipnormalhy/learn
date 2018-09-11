@@ -9,6 +9,7 @@ class CTcpServer: public CServerBase {
 		boost::asio::ip::tcp::acceptor acceptor_;
 	public:
 		CTcpServer(const boost::asio::ip::address &addr, unsigned short port);
+		virtual ~CTcpServer();
 		virtual bool start_listen();
 		virtual void run();
 

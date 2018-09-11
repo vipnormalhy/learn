@@ -38,6 +38,9 @@ bool CServerBase::check_address() {
 void CServerBase::run() {
 }
 
+CServerBase::~CServerBase() {
+}
+
 CUdpServer::CUdpServer(const boost::asio::ip::address &addr, unsigned short port):
 	CServerBase(addr, port) {
 	}
