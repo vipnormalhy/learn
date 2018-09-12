@@ -40,14 +40,3 @@ void CServerBase::run() {
 
 CServerBase::~CServerBase() {
 }
-
-CUdpServer::CUdpServer(const boost::asio::ip::address &addr, unsigned short port):
-	CServerBase(addr, port) {
-	}
-
-bool CUdpServer::start_listen() {
-	return true;
-}
-
-void CUdpServer::run() {
-}

@@ -26,6 +26,7 @@ set(SRC_FILE
 	${CMAKE_SOURCE_DIR}/network/server.cpp
 	${CMAKE_SOURCE_DIR}/network/tcp_server.cpp
 	${CMAKE_SOURCE_DIR}/network/tcp_client.cpp
+	${CMAKE_SOURCE_DIR}/network/udp_server.cpp
 )
 
 find_library(BOOST_LOG_LIB

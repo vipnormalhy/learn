@@ -8,6 +8,7 @@
 #include "common.h"
 #include "network/tcp_server.h"
 #include "network/tcp_client.h"
+#include "network/udp_server.h"
 
 namespace po = boost::program_options;
 
@@ -111,10 +112,14 @@ int main(int argc, const char *const *argv) {
 
 	// starts a server
 	boost::shared_ptr<CTcpServer> server_ptr = NULL;
+	boost::shared_ptr<CUdpServer> udp_server_ptr = NULL;
 	if (is_server) {
 		boost::asio::ip::address ip_addr = boost::asio::ip::make_address(ip_str);
 		server_ptr = boost::make_shared<CTcpServer>(ip_addr, static_cast<unsigned short>(port));
 		server_ptr->run();
+
+		udp_server_ptr = boost::make_shared<CUdpServer>(ip_addr, static_cast<unsigned short>(port));
+		udp_server_ptr->run();
 	}
 
 	// starts a client
