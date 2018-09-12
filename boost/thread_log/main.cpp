@@ -122,7 +122,7 @@ int main(int argc, const char *const *argv) {
 	if (is_client) {
 		std::string client_ip_str(vm["conn_ip"].as<std::string>());
 		client_ptr = boost::make_shared<CTcpClient>(client_ip_str, vm["conn_port"].as<int>());
-		client_ptr->connect();
+		client_ptr->async_connect();
 	}
 
 	common_io_context.run();

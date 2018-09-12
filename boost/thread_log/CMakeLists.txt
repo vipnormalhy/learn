@@ -59,6 +59,7 @@ find_library(BOOST_PROGRAM_OPTIONS_LIB
 	NO_DEFAULT_PATH)
 
 message(STATUS "find library ${BOOST_LOG_LIB}")
+message(STATUS "find library ${BOOST_SYSTEM_LIB}")
 
 add_executable(${PROJECT_NAME} ${SRC_FILE})
 target_link_libraries(${PROJECT_NAME}

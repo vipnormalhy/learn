@@ -1,3 +1,4 @@
+#include <boost/bind.hpp>
 #include "tcp_client.h"
 #include "common.h"
 
@@ -50,5 +51,30 @@ void CTcpClient::connect() {
 
 	if (!succeed) {
 		BOOST_LOG_SEV(g_logger, LOG_ERROR) << "Client connect to " << ip_addr_ << "FAILED!";
+	}
+}
+
+void CTcpClient::async_connect() {
+	if (ip_addr_.empty()) {
+		BOOST_LOG_SEV(g_logger, LOG_ERROR) << "client no connect ip address!";
+		return;
+	}
+
+	if (!check_port()) {
+		BOOST_LOG_SEV(g_logger, LOG_ERROR) << "client no connect port!";
+		return;
+	}
+
+	BOOST_LOG_SEV(g_logger, LOG_INFO) << "async connect to ip " << ip_addr_ << " port" << port_;
+
+	boost::asio::ip::tcp::resolver resolver(common_io_context);
+	boost::asio::ip::tcp::resolver::results_type endpoints = resolver.resolve(ip_addr_, std::to_string(port_));
+
+	boost::asio::async_connect(socket_, endpoints, boost::bind(&CTcpClient::handle_connect, this, boost::asio::placeholders::error, boost::asio::placeholders::endpoint));
+}
+
+void CTcpClient::handle_connect(const boost::system::error_code &err, const boost::asio::ip::tcp::endpoint endpoint) {
+	if (!err) {
+		BOOST_LOG_SEV(g_logger, LOG_INFO) << "async connected to " << endpoint;
 	}
 }
