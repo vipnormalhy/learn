@@ -1,0 +1,8 @@
+1. Network handler,supports multiplayer
+2. Network data, supports encrypt, compress while using multi-threads.
+Keep query Sequence.
+Dynamic load balance handle.
+3. Multi-threads log manager,support sequence.
+4. First, support TCP.The Second version UDP;
+5. Proto,Use Google protobuf first.
+6. Daemon log manager process,protect crash

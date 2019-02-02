@@ -5,3 +5,5 @@ obj
 .vs
 *.exe
 *.csproj.user
+build
+compile_commands.json
