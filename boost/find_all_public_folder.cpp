@@ -29,8 +29,56 @@ bool FindProjectIncludeDirectory::set_unreal_engine_directory(const std::string 
 std::string FindProjectIncludeDirectory::get_include_directory() {
     std::string engine_include(get_engine_include_directory());
     std::string project_include(get_project_include_directory());
+    std::string editor_include(get_editor_include_directory());
 
-    return engine_include + project_include;
+    return engine_include + project_include + editor_include;
+}
+
+std::string FindProjectIncludeDirectory::get_editor_include_directory() {
+    std::string editor_include("");
+
+    if (m_engine_directory.empty()) {
+        return editor_include;
+    }
+
+    std::string indent = "                \"";
+    std::string end_indent = "\",\n";
+
+    boost::filesystem::path editor_runtime_path(m_engine_directory);
+    editor_runtime_path += "\\Engine\\Source\\Editor";
+
+    for (boost::filesystem::directory_entry &dir_entry: boost::filesystem::directory_iterator(editor_runtime_path)) {
+        boost::filesystem::path single_path(dir_entry.path());
+        single_path += "\\Public";
+
+        if (boost::filesystem::is_directory(single_path)) {
+            editor_include += indent;
+            editor_include += single_path.string();
+            editor_include += end_indent;
+
+            for (boost::filesystem::directory_entry &temp_entry: boost::filesystem::directory_iterator(single_path)) {
+                boost::filesystem::path sub_path(temp_entry.path());
+
+                if (!boost::filesystem::is_directory(sub_path)) {
+                    continue;
+                }
+
+                editor_include += indent;
+                editor_include += sub_path.string();
+                editor_include += end_indent;
+            }
+        }
+
+        boost::filesystem::path single_path2(dir_entry.path());
+        single_path2 += "\\Classes";
+        if (boost::filesystem::is_directory(single_path2)) {
+            editor_include += indent;
+            editor_include += single_path2.string();
+            editor_include += end_indent;
+        }
+    }
+    
+    return editor_include;
 }
 
 std::string FindProjectIncludeDirectory::get_engine_include_directory() {
