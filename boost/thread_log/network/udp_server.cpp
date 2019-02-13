@@ -1,4 +1,5 @@
 #include <boost/bind.hpp>
+#include <boost/chrono.hpp>
 #include "udp_server.h"
 #include "common.h"
 
@@ -13,6 +14,9 @@ bool CUdpServer::start_listen() {
 	if (!ret) {
 		return ret;
 	}
+
+	socket_.open(endpoint_.protocol());
+	socket_.set_option(boost::asio::ip::udp::socket::reuse_address(true));
 
 	boost::system::error_code err;
 	socket_.bind(endpoint_, err);
@@ -39,9 +43,12 @@ void CUdpServer::start_receive() {
 
 void CUdpServer::handle_receive(const boost::system::error_code &err, std::size_t bytes_transferred) {
 	if (!err) {
+		boost::chrono::steady_clock::time_point now = boost::chrono::steady_clock::now();
+		std::cout << "receive now" << now << std::endl;
 		std::cout << "receive data from " << remote_endpoint_ << " size " << bytes_transferred << std::endl;;
 	} else {
-		std::cout << "receive from error" << err.message() << std::endl;
+		boost::chrono::steady_clock::time_point now = boost::chrono::steady_clock::now();
+		std::cout << "err receive now" << now << std::endl;
 	}
 
 	start_receive();
