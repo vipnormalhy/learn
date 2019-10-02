@@ -12,10 +12,11 @@ template<typename T>
 class BRTreeNode
 {
 public:
-  T value;
-  BRTreeColor color;
-  std::shared_ptr<BRTreeNode<T>> left_ptr;
-  std::shared_ptr<BRTreeNode<T>> right_ptr;
+  T m_value;
+  BRTreeColor m_color;
+  std::shared_ptr<BRTreeNode<T>> m_left_ptr;
+  std::shared_ptr<BRTreeNode<T>> m_right_ptr;
+  std::shared_ptr<BRTreeNode<T>> m_parent_prt;
 };
 
 template<typename T>
@@ -46,6 +47,7 @@ BRTree<T>::BRTree()
 template<typename T>
 BRTree<T>::~BRTree()
 {
+  m_brtree_ptr = nullptr;
 }
 
 template<typename T>
@@ -63,10 +65,10 @@ bool BRTree<T>::insert(const T &value)
     std::terminate();
   }
 
-  node->value = value;
-  node->color = RED;
-  node->left_ptr = nullptr;
-  node->right_ptr = nullptr;
+  node->m_value = value;
+  node->m_color = RED;
+  node->m_left_ptr = nullptr;
+  node->m_right_ptr = nullptr;
   return true;
 }
 
@@ -74,10 +76,10 @@ template<typename T>
 bool BRTree<T>::insert_head(const T &value)
 {
   m_brtree_ptr = std::make_shared<BRTreeNode<T>>();
-  m_brtree_ptr->value = value;
-  m_brtree_ptr->color = BLACK;
-  m_brtree_ptr->left_ptr = nullptr;
-  m_brtree_ptr->right_ptr = nullptr;
+  m_brtree_ptr->m_value = value;
+  m_brtree_ptr->m_color = BLACK;
+  m_brtree_ptr->m_left_ptr = nullptr;
+  m_brtree_ptr->m_right_ptr = nullptr;
   return true;
 }
 
@@ -96,16 +98,16 @@ void BRTree<T>::travel_tree()
 template<typename T>
 void BRTree<T>::travel_subtree(std::shared_ptr<BRTreeNode<T>> node_ptr)
 {
-  if (node_ptr->left_ptr)
+  if (node_ptr->m_left_ptr)
   {
-    travel_subtree(node_ptr->left_ptr);
+    travel_subtree(node_ptr->m_left_ptr);
   }
 
-  std::cout << "value is " << node_ptr->value << " color is " << node_ptr->color << std::endl;
+  std::cout << "value is " << node_ptr->m_value << " color is " << node_ptr->m_color << std::endl;
 
-  if (node_ptr->right_ptr)
+  if (node_ptr->m_right_ptr)
   {
-    travel_subtree(node_ptr->right_ptr);
+    travel_subtree(node_ptr->m_right_ptr);
   }
 }
 
@@ -120,28 +122,28 @@ std::shared_ptr<BRTreeNode<T>> BRTree<T>::create_insert_node(const T &value)
 
   while(true)
   {
-    if (node->value < value)
+    if (node->m_value < value)
     {
-      if (node->right_ptr)
+      if (node->m_right_ptr)
       {
-        node = node->right_ptr;
+        node = node->m_right_ptr;
       }
       else
       {
-        node->right_ptr = std::make_shared<BRTreeNode<T>>();
-        return node->right_ptr;
+        node->m_right_ptr = std::make_shared<BRTreeNode<T>>();
+        return node->m_right_ptr;
       }
     }
     else
     {
-      if (node->left_ptr)
+      if (node->m_left_ptr)
       {
-        node = node->left_ptr;
+        node = node->m_left_ptr;
       }
       else
       {
-        node->left_ptr = std::make_shared<BRTreeNode<T>>();
-        return node->left_ptr;
+        node->m_left_ptr = std::make_shared<BRTreeNode<T>>();
+        return node->m_left_ptr;
       }
     }
   }

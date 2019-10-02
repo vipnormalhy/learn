@@ -1,4 +1,6 @@
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 #include "BlackRedTree/brt.h"
 
@@ -13,5 +15,7 @@ int main()
   tree.insert(3);
   tree.insert(0);
   tree.travel_tree();
+
+  std::this_thread::sleep_for(std::chrono::seconds(10));
   return 0;
 }
