@@ -336,7 +336,11 @@ bool BRTree<T>::rotate_right(std::shared_ptr<BRTreeNode<T>> node)
   auto grandparent = parent->m_parent_ptr;
   node->m_parent_ptr = grandparent;
 
-  if (grandparent)
+  if (!grandparent)
+  {
+    m_brtree_ptr = node;
+  }
+  else
   {
     if (grandparent->m_left_ptr == parent)
     {
