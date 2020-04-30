@@ -1,11 +1,15 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <vector>
 
 #include "BlackRedTree/brt.h"
 #include "NQueen.h"
+#include "Fibonacci.h"
+#include "NCoins.h"
+#include "BinarySearch.h"
 
-int main()
+void test_rbtree()
 {
   BRTree<int> tree;
 
@@ -25,10 +29,50 @@ int main()
   // tree.travel_tree();
 
   // std::this_thread::sleep_for(std::chrono::seconds(10));
+}
+
+void test_queen()
+{
   int queen_num;
   std::cout << "Please Enter queen count: ";
   std::cin >> queen_num;
   n_queen_entry(queen_num);
+}
+
+void test_fibonacci()
+{
+  int n;
+  std::cout << "Please enter fibonacci n:";
+  std::cin >> n;
+  fibonacci_entry(n);
+}
+
+void test_ncoin()
+{
+  std::vector<int> coins({3, 5, 2, 10});
+
+  int money;
+  std::cout << "Input money num: ";
+  std::cin >> money;
+
+  ncoins_entry(coins, money);
+}
+
+void test_binary_search()
+{
+  int target;
+  std::cout << "Input search target: ";
+  std::cin >> target;
+  int index = binary_search(target);
+  std::cout << "Find index: " << index << std::endl;
+}
+
+int main()
+{
+  test_queen();
+  test_fibonacci();
+  test_ncoin();
+  test_binary_search();
 
   std::string result;
   while(true)
