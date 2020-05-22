@@ -12,6 +12,7 @@ set(SRC_FILES
     ${CMAKE_SOURCE_DIR}/main.cpp
     ${CMAKE_SOURCE_DIR}/BlackRedTree/brt.h
     ${CMAKE_SOURCE_DIR}/NQueen.cpp
+    ${CMAKE_SOURCE_DIR}/SubString.cpp
     )
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})

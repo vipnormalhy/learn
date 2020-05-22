@@ -8,6 +8,7 @@
 #include "Fibonacci.h"
 #include "NCoins.h"
 #include "BinarySearch.h"
+#include "SubString.h"
 
 void test_rbtree()
 {
@@ -65,6 +66,10 @@ void test_binary_search()
   std::cin >> target;
   int index = binary_search(target);
   std::cout << "Find index: " << index << std::endl;
+  index = binary_search_left_edge(target);
+  std::cout << "Find left index: " << index << std::endl;
+  index = binary_search_right_edge(target);
+  std::cout << "Find right index: " << index << std::endl;
 }
 
 int main()
@@ -73,6 +78,7 @@ int main()
   test_fibonacci();
   test_ncoin();
   test_binary_search();
+  calc_substring();
 
   std::string result;
   while(true)
