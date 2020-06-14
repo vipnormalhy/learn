@@ -25,4 +25,5 @@ jobs:
       run: |
         cd learn_cpp/algorithm
         cmake -DCMAKE_BUILD_TYPE=Release .
+        make
         cd ..
