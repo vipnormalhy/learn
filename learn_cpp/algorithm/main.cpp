@@ -78,7 +78,7 @@ int main()
   test_fibonacci();
   test_ncoin();
   test_binary_search();
-  calc_substring();
+  calc_substring(std::string(""), std::string(""));
 
   std::string result;
   while(true)
