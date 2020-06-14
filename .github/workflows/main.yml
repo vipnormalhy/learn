@@ -22,7 +22,7 @@ jobs:
 
     # compile and test c++ code
     - name: build_algorithm
-      run: |
+      run:
         cd learn_cpp/algorithm
         cmake -DCMAKE_BUILD_TYPE=Release .
         cd ..
